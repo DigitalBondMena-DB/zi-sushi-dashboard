@@ -1,0 +1,119 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Box" : "Add Box" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-1 gap-6">
+      <!-- Image Upload Section -->
+      <div>
+        <div class="p-field">
+          <label class="font-medium mb-1 block">Box Image</label>
+          <p-fileUpload
+            #fileUpload
+            name="image"
+            accept="image/*"
+            [auto]="true"
+            [chooseLabel]="'Choose Image'"
+            [uploadLabel]="'Upload'"
+            [styleClass]="'w-full'"
+            [cancelLabel]="'Cancel'"
+            (onRemove)="clearImage()"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [customUpload]="true"
+            (onSelect)="onFileSelect($event)"
+            [draggable]="true">
+            <ng-template pTemplate="content">
+              <div
+                class="upload-area flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-main-500 transition">
+                <i class="pi pi-cloud-upload text-4xl text-gray-400"></i>
+                <p class="text-gray-500 mt-2">
+                  Drag & drop an image or
+                  <span class="text-blue-500 cursor-pointer" (click)="fileUpload.choose()">click to select</span>
+                </p>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+          @if (submitForm.get('image')?.invalid && submitForm.get('image')?.touched) {
+          <div class="p-error">
+            <small>Box Image is required.</small>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Box English Name</label>
+        <input required type="text" pInputText formControlName="en_food_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_food_name')?.invalid && submitForm.get('en_food_name')?.touched) {
+        <div class="p-error">
+          <small>Box English Name is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Box Arabic Name</label>
+        <input required type="text" pInputText formControlName="ar_food_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_food_name')?.invalid && submitForm.get('ar_food_name')?.touched) {
+        <div class="p-error">
+          <small>Box Arabic Name is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Box Price</label>
+        <input appOnlyNumber required type="number" pInputText formControlName="price" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('price')?.invalid && submitForm.get('price')?.touched) {
+        <div class="p-error">
+          <small>Box Price is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Box English Description</label>
+        <ngx-jodit required [options]="{ language: 'en' }" required formControlName="en_ingredients"></ngx-jodit>
+        @if (submitForm.get('en_ingredients')?.invalid && submitForm.get('en_ingredients')?.touched) {
+        <div class="p-error">
+          <small>Box English Description is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Box Arabic Description</label>
+        <ngx-jodit
+          required
+          dir="rtl"
+          [options]="{ language: 'ar', direction: 'rtl' }"
+          required
+          formControlName="ar_ingredients"></ngx-jodit>
+        @if (submitForm.get('ar_ingredients')?.invalid && submitForm.get('ar_ingredients')?.touched) {
+        <div class="p-error">
+          <small>Box Arabic Description is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
+        <label class="font-medium mb-1 block">Status</label>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/offers/boxes"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

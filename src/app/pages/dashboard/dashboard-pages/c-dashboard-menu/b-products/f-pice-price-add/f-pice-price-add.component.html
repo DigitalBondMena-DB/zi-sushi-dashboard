@@ -1,0 +1,41 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Piece & Price" : "Add Piece & Price" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <label class="font-medium">Piece</label>
+        <input appOnlyNumber type="number" pInputText formControlName="pieces" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Price</label>
+        <input appOnlyNumber type="number" pInputText formControlName="prices" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        [routerLink]="['/dashboard/menu/products/products-pice-price/', productId]"></button>
+      <button
+        pButton
+        label="Save"
+        (click)="saveForm()"
+        [disabled]="submitForm.invalid"
+        class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,55 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Category Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Names -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Name</label>
+        <p class="text-gray-900 font-semibold">{{ categoryData.category.en_name }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Name</label>
+        <p class="text-gray-900 font-semibold">{{ categoryData.category.ar_name }}</p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag [severity]="categoryData.category.state ? 'success' : 'danger'" class="w-fit">
+          {{ categoryData.category.state ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">{{ categoryData.category.created_at | date : "MMM d, y, h:mm a" }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">{{ categoryData.category.updated_at | date : "MMM d, y, h:mm a" }}</p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/menu/categories"></button>
+      <button
+        pButton
+        label="Edit Category"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/menu/categories/categories-edit', categoryData.category.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

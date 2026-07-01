@@ -1,0 +1,73 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Combo Box Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Names -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Name</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.en_name }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Name</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.ar_name }}</p>
+      </div>
+
+      <!-- Piece -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Piece</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.pieces }}</p>
+      </div>
+
+      <!-- price -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Price</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.prices | currency : " EGP " }}</p>
+      </div>
+
+      <!-- Limits -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Limits </label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.limits.length }}</p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag [severity]="comboOffers.combo.status ? 'success' : 'danger'" class="w-fit">
+          {{ comboOffers.combo.status ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.created_at | date : "MMM d, y, h:mm a" }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">{{ comboOffers.combo.updated_at | date : "MMM d, y, h:mm a" }}</p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/offers/combo"></button>
+      <button
+        pButton
+        label="Edit Combo Box"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/offers/combo/combo-edit', comboOffers.combo.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,46 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Category" : "Add Category" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <label class="font-medium">English Name</label>
+        <input type="text" pInputText formControlName="en_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_name')?.invalid && submitForm.get('en_name')?.touched) {
+        <div class="p-error">
+          <small>English Name is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Name</label>
+        <input type="text" pInputText formControlName="ar_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_name')?.invalid && submitForm.get('ar_name')?.touched) {
+        <div class="p-error">
+          <small>Arabic Name is required.</small>
+        </div>
+        }
+      </div>
+
+      <!-- <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="state"></p-inputSwitch>
+      </div> -->
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/menu/categories"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

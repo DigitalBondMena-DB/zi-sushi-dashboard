@@ -1,0 +1,167 @@
+@if (allVouchers) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Vouchers Control</h2>
+
+    <p-button
+      routerLink="/dashboard/offers/vouchers/vouchers-add"
+      label="Add Voucher"
+      icon="pi pi-plus"
+      class="btn-main text-white"
+    ></p-button>
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input
+        class="mb-0"
+        type="text"
+        pInputText
+        placeholder="Search"
+        (input)="onGlobalFilter(dt, $event)"
+      />
+    </span>
+  </div>
+
+  <p-table
+    #dt
+    [paginator]="true"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [lazy]="true"
+    (onPage)="onPageChange($event)"
+    [value]="filteredVouchers"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [globalFilterFields]="['id', 'title_en', 'value', 'type', 'apply', 'use']"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="title_en">
+          Title En <p-sortIcon field="title_en"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="value">
+          Value <p-sortIcon field="value"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <!-- Type Dropdown Filter -->
+          <p-dropdown
+            #TypeDd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [(ngModel)]="selectedType"
+            [options]="selectTypeOptions"
+            optionValue="value"
+            (onChange)="onTypeFilterChange($event.value)"
+            (onClear)="onTypeFilterChange('')"
+            placeholder="Type"
+            [showClear]="true"
+            [autoZIndex]="true"
+          ></p-dropdown>
+        </th>
+        <th class="text-center" pSortableColumn="apply">
+          Apply <p-sortIcon field="apply"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="use">
+          Use <p-sortIcon field="use"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <!-- Status Dropdown Filter -->
+          <p-dropdown
+            #StatusDd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [(ngModel)]="selectedStatus"
+            [options]="selectStatusOptions"
+            optionValue="value"
+            (onChange)="onStatusFilterChange($event.value)"
+            (onClear)="onStatusFilterChange('')"
+            placeholder="Status"
+            [showClear]="true"
+            [autoZIndex]="true"
+          ></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-voucher>
+      <tr>
+        <td class="text-center">{{ voucher.id }}</td>
+        <td class="text-center">{{ voucher.title_en }}</td>
+        <td class="text-center">
+          @if (voucher.type === 'percent') {
+          {{ voucher.value / 100 | percent }}
+          } @else {
+          {{ voucher.value }} EGP }
+        </td>
+        <!--  -->
+        <td class="text-center">{{ voucher.type }}</td>
+        <td class="text-center">
+          @if (voucher.apply == 'all') { All Users } @else { specific users }
+        </td>
+        <td class="text-center">
+          @if (voucher.use == 'once') { One use } @else if (voucher.use ==
+          'all') { Multi use } @else { Limited Use }
+        </td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="voucher.status"
+            (onChange)="toggleVoucherStatus(voucher)"
+          ></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="[
+              '/dashboard/offers/vouchers/vouchers-edit',
+              voucher.id
+            ]"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text"
+          >
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+        <td class="text-center">
+          <button
+            [routerLink]="[
+              '/dashboard/offers/vouchers/vouchers-details',
+              voucher.id
+            ]"
+            pButton
+            label="View"
+            icon="pi pi-search"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="10">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

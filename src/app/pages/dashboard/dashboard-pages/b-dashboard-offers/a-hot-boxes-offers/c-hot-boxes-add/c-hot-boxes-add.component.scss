@@ -1,0 +1,21 @@
+::ng-deep .p-fileupload-buttonbar {
+  display: none;
+}
+::ng-deep .jodit-status-bar-link,
+::ng-deep .jodit-toolbar-button_about {
+  display: none;
+}
+
+::ng-deep .p-element {
+  padding-inline: 0px;
+  li {
+    padding-inline: 10px;
+  }
+}
+
+/* Hide arrows for WebKit-based browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

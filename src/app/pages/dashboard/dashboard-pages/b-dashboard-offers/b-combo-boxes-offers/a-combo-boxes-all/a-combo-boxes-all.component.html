@@ -1,0 +1,121 @@
+@if (comboBoxes.length >0) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Free Choice Offer</h2>
+
+    <!-- <p-button
+      routerLink="/dashboard/offers/combo/combo-add"
+      label="Add Combo Box"
+      icon="pi pi-plus"
+      class="btn-main text-white"></p-button> -->
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input #search class="mb-0" type="text" pInputText placeholder="Search" (input)="onGlobalFilter(dt, $event)" />
+    </span>
+  </div>
+  <!-- pieces and prices -->
+  <p-table
+    #dt
+    [paginator]="totalRecords"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    lazy="true"
+    (onPage)="onPageChange($event)"
+    [globalFilterFields]="['id', 'en_name', 'ar_name', 'pieces', 'prices ']"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [value]="filteredComboBoxes"
+    responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="en_name">Name (EN) <p-sortIcon field="en_name"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="ar_name">Name (AR) <p-sortIcon field="ar_name"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="pieces">Pieces <p-sortIcon field="pieces"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="prices">Price <p-sortIcon field="prices"></p-sortIcon></th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #Dd
+            [ngModel]="selectedStatus"
+            [options]="selectOptions"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">Limits</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-comboBox>
+      <tr>
+        <td class="text-center">{{ comboBox.id }}</td>
+        <td class="text-center">{{ comboBox.en_name }}</td>
+        <td class="text-center">{{ comboBox.ar_name }}</td>
+        <td class="text-center">{{ comboBox.pieces }}</td>
+        <td class="text-center">{{ comboBox.prices | currency : " EGP " }}</td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="comboBox.status"
+            (onChange)="toggleComboOffersStatus(comboBox)"></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="['/dashboard/offers/combo/combo-edit', comboBox.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="['/dashboard/offers/combo/limits-details/', comboBox.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pen-to-square"></span>
+          </a>
+        </td>
+        <td class="text-center">
+          <button
+            [routerLink]="['/dashboard/offers/combo/combo-details', comboBox.id]"
+            pButton
+            label="View"
+            icon="pi pi-search"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

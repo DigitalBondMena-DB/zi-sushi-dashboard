@@ -1,0 +1,30 @@
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+  overflow-x: auto;
+  border-radius: $borderRadius;
+  padding-bottom: 100px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.p-toast {
+  &.p-toast-top-right,
+  &.p-toast-top-left,
+  &.p-toast-top-center {
+    top: 100px;
+  }
+}
+p .h-500 {
+  height: 500px !important;
+}
+
+th {
+  // display: inline-flex !important;
+  text-wrap: nowrap;
+}

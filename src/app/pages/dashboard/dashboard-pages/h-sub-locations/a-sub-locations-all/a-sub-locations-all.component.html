@@ -1,0 +1,118 @@
+@if (subLocations.length >0) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Areas Control</h2>
+
+    <p-button
+      routerLink="/dashboard/sub-locations/sub-locations-add"
+      label="Add Area"
+      icon="pi pi-plus"
+      class="btn-main text-white"></p-button>
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input #search class="mb-0" type="text" pInputText placeholder="Search" (input)="onGlobalFilter(dt, $event)" />
+    </span>
+  </div>
+
+  <p-table
+    #dt
+    [paginator]="totalRecords"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [lazy]="true"
+    (onPage)="onPageChange($event)"
+    [globalFilterFields]="['id', 'en_sub_location', 'ar_sub_location', 'price']"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [value]="filteredSubLocations"
+    responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th class="text-center">City</th>
+        <th class="text-center" pSortableColumn="en_sub_location">
+          Area (EN) <p-sortIcon field="en_sub_location"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="ar_sub_location">
+          Area (AR) <p-sortIcon field="ar_sub_location"></p-sortIcon>
+        </th>
+        <th class="text-center">Branch</th>
+        <th class="text-center" pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #Dd
+            [ngModel]="selectedStatus"
+            [options]="selectOptions"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-subLocation>
+      <tr>
+        <td class="text-center">{{ subLocation.id }}</td>
+        <td class="text-center">{{ findLocations(subLocation.location_id) }}</td>
+        <td class="text-center">{{ subLocation.en_sub_location }}</td>
+        <td class="text-center">{{ subLocation.ar_sub_location }}</td>
+        <td class="text-center">{{ findCity(subLocation.branch_id) }}</td>
+        <td class="text-center">{{ subLocation.price | currency : " EGP " }}</td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="subLocation.status"
+            (onChange)="toggleSubLocationStatus(subLocation)"></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="['/dashboard/sub-locations/sub-locations-edit', subLocation.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+
+          <!-- <p-button icon="pi pi-trash" (click)="confirmDelete(branch)" class="p-button-text p-button-danger"></p-button> -->
+        </td>
+        <td class="text-center">
+          <button
+            [routerLink]="['/dashboard/sub-locations/sub-locations-details', subLocation.id]"
+            pButton
+            label="View"
+            icon="pi pi-search"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

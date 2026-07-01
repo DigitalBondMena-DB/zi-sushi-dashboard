@@ -1,0 +1,166 @@
+@if (allProducts) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Products Control</h2>
+
+    <p-button
+      routerLink="/dashboard/menu/products/products-add"
+      label="Add Products"
+      icon="pi pi-plus"
+      class="btn-main text-white"></p-button>
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input #search class="mb-0" type="text" pInputText placeholder="Search" (input)="onGlobalFilter(dt, $event)" />
+    </span>
+  </div>
+
+  <p-table
+    #dt
+    [paginator]="totalRecords"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [lazy]="true"
+    (onPage)="onPageChange($event)"
+    [globalFilterFields]="['id', 'en_food_name', 'ar_food_name']"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [value]="filteredProducts"
+    responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th class="text-center">Image</th>
+        <th class="text-center" pSortableColumn="en_food_name">
+          Name (EN) <p-sortIcon field="en_food_name"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #DdCategory
+            [options]="categoryData"
+            [filter]="true"
+            class="mx-auto"
+            optionLabel="label"
+            styleClass="mx-auto"
+            [ngModel]="selectedStatus"
+            optionValue="label"
+            (onChange)="onFilterCategoryChange($event.value); DdCategory.showClear = true"
+            placeholder="Category (EN)"
+            [showClear]="false"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #Dd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [ngModel]="selectedStatus"
+            [options]="selectOptions"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">Pieces & Prices</th>
+        <th class="text-center">Choices</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td class="text-center">{{ product.id }}</td>
+        <td class="text-center">
+          <img
+            width="50"
+            height="50"
+            style="width: 50px; height: 50px"
+            class="rounded-full mx-auto"
+            [ngSrc]="imgUrl+'products/' + product.image"
+            role="presentation" />
+        </td>
+        <td class="text-center">{{ product.en_food_name }}</td>
+        <td class="text-center">{{ product.category.en_name }}</td>
+        <!-- <td class="text-center">{{ product.price | currency : " EGP " }}</td> -->
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="product.status"
+            (onChange)="toggleProductStatus(product)"></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="['/dashboard/menu/products/products-edit', product.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+        <td class="text-center">
+          @if (product.piece_price_state) {
+          <a
+            [routerLink]="['/dashboard/menu/products/products-pice-price', product.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pen-to-square"></span>
+          </a>
+          } @else {
+          <span>N/A </span>
+          }
+        </td>
+        <td class="text-center">
+          @if (product.product_choice_state) {
+          <a
+            [routerLink]="['/dashboard/menu/products/products-choice', product.id]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-list"></span>
+          </a>
+          } @else {
+          <span>N/A </span>
+          }
+        </td>
+        <td class="text-center">
+          <button
+            [routerLink]="['/dashboard/menu/products/products-details', product.id]"
+            pButton
+            label="View"
+            icon="pi pi-search"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

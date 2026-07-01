@@ -1,0 +1,14 @@
+<ng-container>
+  @for (item of model; track $index) {
+  <ul class="layout-menu">
+    @if (!item.separator) {
+    <app-dashboard-menu-items [item]="item" [index]="$index" [root]="true"/>
+    } @if (item.separator) {
+    <li class="menu-separator"></li>
+    }
+  </ul>
+  }
+</ng-container>
+<p-toast />
+<p-confirmDialog />
+

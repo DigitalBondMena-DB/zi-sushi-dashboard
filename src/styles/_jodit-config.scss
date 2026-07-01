@@ -1,0 +1,30 @@
+.jodit-wysiwyg ul,
+.jodit-wysiwyg ol {
+  list-style-type: initial !important; /* Preserve the defined style */
+  padding-left: 20px !important; /* Restore normal padding */
+  margin-left: 20px !important; /* Ensure proper spacing */
+}
+
+.jodit-wysiwyg li {
+  padding-left: 5px !important; /* Adjust list item spacing */
+}
+.jodit-wysiwyg ul {
+  list-style-type: disc !important;
+}
+
+.jodit-wysiwyg ol {
+  list-style-type: decimal !important;
+}
+
+ngx-jodit[dir="rtl"] {
+  .jodit-wysiwyg ul,
+  .jodit-wysiwyg ol {
+    list-style-type: initial !important; /* Preserve the defined style */
+    padding-right: 20px !important; /* Restore normal padding */
+    margin-right: 20px !important; /* Ensure proper spacing */
+  }
+
+  .jodit-wysiwyg li {
+    padding-right: 5px !important; /* Adjust list item spacing */
+  }
+}

@@ -1,0 +1,51 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Tutorial" : "Add Tutorial" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <label class="font-medium">English Title</label>
+        <input type="text" pInputText formControlName="en_title" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Title</label>
+        <input type="text" pInputText formControlName="ar_title" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">English Content</label>
+        <input type="text" pInputText formControlName="en_Text" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Content</label>
+        <input type="text" pInputText formControlName="ar_text" class="p-inputtext-sm w-full" />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Content Type</label>
+        <input type="text" pInputText formControlName="content_type" class="p-inputtext-sm w-full" />
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/pages/tutorial"></button>
+      <button
+        pButton
+        label="Save"
+        (click)="saveForm()"
+        [disabled]="submitForm.invalid"
+        class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

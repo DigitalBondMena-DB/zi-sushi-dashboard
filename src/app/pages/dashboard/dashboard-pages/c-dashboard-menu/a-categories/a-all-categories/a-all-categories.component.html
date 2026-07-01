@@ -1,0 +1,136 @@
+@if (categories.length >0) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Categories Control</h2>
+
+    <p-button
+      routerLink="/dashboard/menu/categories/categories-add"
+      label="Add Category"
+      icon="pi pi-plus"
+      class="btn-main text-white"
+    ></p-button>
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input
+        #search
+        class="mb-0"
+        type="text"
+        pInputText
+        placeholder="Search"
+        (input)="onGlobalFilter(dt, $event)"
+      />
+    </span>
+  </div>
+
+  <p-table
+    #dt
+    [paginator]="true"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [lazy]="true"
+    (onPage)="onPageChange($event)"
+    [globalFilterFields]="['id', 'en_name', 'ar_name', 'state']"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [value]="filteredCategories"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="en_name">
+          Name (EN) <p-sortIcon field="en_name"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="ar_name">
+          Name (AR) <p-sortIcon field="ar_name"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #Dd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [ngModel]="selectedStatus"
+            [options]="selectOptions"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"
+          ></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-category>
+      <tr>
+        <td class="text-center">{{ category.id }}</td>
+        <td class="text-center">{{ category.en_name }}</td>
+        <td class="text-center">{{ category.ar_name }}</td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="category.state"
+            (onChange)="toggleCategoryStatus(category)"
+          ></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="[
+              '/dashboard/menu/categories/categories-edit',
+              category.id
+            ]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text"
+          >
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="[
+              '/dashboard/menu/categories/categories-details',
+              category.id
+            ]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text"
+          >
+            <span class="p-button-icon pi pi-search"></span>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

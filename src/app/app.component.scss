@@ -1,0 +1,68 @@
+@import "variables";
+
+// ngx loading container
+::ng-deep .ngx-spinner-overlay > div:not(.loading-text),
+::ng-deep .loading-text {
+  position: static !important;
+  inset: 0;
+  transform: none !important;
+}
+::ng-deep .ngx-spinner-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+// Welcome Message animation
+.welcome-container {
+  text-align: center;
+  margin-block: 50px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+
+  img {
+    width: 150px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInScale 1s ease-out 0.5s forwards;
+  }
+
+  h1,
+  p {
+    opacity: 0;
+    animation: fadeInText 1s ease-out 1s forwards;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

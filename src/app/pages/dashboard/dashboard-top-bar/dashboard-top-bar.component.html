@@ -1,0 +1,114 @@
+<div class="layout-topbar flex-row-reverse">
+  <div class="px-2 w-full flex items-center justify-between">
+    <!-- Logo -->
+    <a class="justify-end me-auto py-2" routerLink="">
+      <img
+        src="./assets/images/Login_Logo.png"
+        class="ms-3 rounded-md  w-[35px]"
+        alt="logo"
+      />
+    </a>
+
+    <div class="flex justify-center items-center !space-x-4">
+      @if (notifications) {
+      <div class="relative">
+        <!-- Notification Icon -->
+        <button
+          type="button"
+          class="p-button-text p-button-rounded p-button-secondary"
+          (click)="toggleNotifications()"
+        >
+          <!-- @if ( notifications.length) { -->
+          @if ( true) {
+          <i
+            class="pi pi-bell text-3xl"
+            [badgeStyle]="{ display: notifications.length > 0 ? '' : 'none' }"
+            pBadge
+            [value]="notifications.length"
+          ></i>
+          }
+        </button>
+
+        <!-- Notifications Dropdown -->
+        @if (showNotifications) {
+        <div class="notification-dropdown shadow-2xl border">
+          <h3 class="text-lg font-semibold p-3 flex justify-between">
+            New Orders
+            <button
+              pButton
+              class="p-button-text text-sm text-primary"
+              routerLink="/dashboard/orders/orders"
+              (click)="showNotifications = false"
+            >
+              See All
+            </button>
+          </h3>
+
+          @if (notifications.length ) {
+          <ul>
+            <li *ngFor="let order of notifications" class="p-3 border-b">
+              <a
+                (click)="toggleNotifications()"
+                [routerLink]="['/dashboard/orders/order-details', order.id]"
+                class="text-main font-medium"
+                >{{ order.user?.name }} placed an order.</a
+              >
+              <span class="text-main text-xs block text-gray-500"
+                >Order ID: {{ order.id }} | {{ order.order_date }} |
+                {{ order.order_time }}</span
+              >
+            </li>
+          </ul>
+          } @if (notifications.length === 0) {
+          <p class="p-3 text-center text-gray-500">No new orders</p>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Profile Button -->
+      <!-- <button class="p-link layout-topbar-button" routerLink="/dashboard">
+        <i class="pi pi-user"></i>
+        <span>Profile</span>
+      </button> -->
+
+      <!-- Toggle Sidebar Menu -->
+      <button
+        #menubutton
+        class="p-link layout-menu-button layout-topbar-button"
+        (click)="layoutService.onMenuToggle()"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PrimeNG Dialog for New Order Alert -->
+<p-dialog
+  [(visible)]="showAlert"
+  [draggable]="false"
+  modal
+  header="🚨 New Orders !"
+  [closable]="false"
+>
+  <div class="text-center">
+    <p class="text-lg font-semibold text-red-500">
+      🚨 {{ unseenOrdersCount }} new order(s) received! 🚨
+    </p>
+    <p
+      class="p-button-success btn-main px-3 cursor-pointer mt-4 duration-75 hover:!bg-main-400"
+      (click)="toggleNotifications(); stopNotification()"
+    >
+      Check your notifications.
+    </p>
+
+    <button
+      class="p-button p-button-danger mt-3 p-2"
+      (click)="stopNotification()"
+    >
+      Stop Alert
+    </button>
+  </div>
+</p-dialog>

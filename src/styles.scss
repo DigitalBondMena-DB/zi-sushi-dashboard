@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "base";
+@import "forms";
+@import "typography";
+@import "variables";
+@import "utilities";
+@import "buttons";
+@import "jodit-config";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+// import Quill styles in styles.scss
+@import "../node_modules/quill/dist/quill.core.css";
+@import "../node_modules/quill/dist/quill.snow.css";
+
+@import "../node_modules/intl-tel-input/build/css/intlTelInput.css";
+
+@import "../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/primeflex/primeflex.min.css";
+
+body {
+  overflow-y: hidden;
+}
+.layout-main {
+  height: 94vh;
+  margin-top: 1vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+.p-steps .p-steps-item:before {
+  border-top: 1px solid gray;
+}
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  background-color: gray;
+  color: white;
+}
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: #1d4ed8;
+  color: #1d4ed8 #eff6ff;
+}
+.p-toast {
+  z-index: 9999 !important;
+}
+input,
+textarea {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 10px;
+}
+.p-element {
+  margin: 0 !important;
+  // padding-bottom: 50px !important;
+}
+
+.jodit-wysiwyg {
+  min-height: 250px !important;
+}
+.p-element.btn-main.col-4.p-button.p-component {
+  background-color: #e34b23 !important;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: #e34b23 !important;
+}
+
+.p-element.p-button-text.p-button.p-component.ng-star-inserted {
+  margin-inline: 10px;
+}
+
+td {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show '...' when text is too long */
+  max-width: 250px; /* Adjust max width as needed */
+}
+
+.layout-menu ul a.active-route,
+.layout-menu ul a:focus,
+a:focus {
+  color: #e34b23 !important;
+  box-shadow: 0 0 0 0.2rem #fae9d2;
+}
+
+@theme {
+  --color-main: #e34b23 !important;
+}
+
+[src="./assets/images/Login_Logo.png"] {
+  // width: 150px !important;
+}
+
+html {
+  font-size: 12px !important;
+}
+
+/* Component-specific styles for PrimeNG table */
+tr {
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+/* Hide arrows for WebKit-based browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::ng-deep *:not(i),
+*:not(i) {
+  font-family: "Noto Kufi Arabic", serif !important;
+}
+
+form > div {
+  position: relative;
+}
+
+.p-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.p-dropdown-clear-icon.p-icon {
+  left: calc(100% + 10px);
+}
+.p-datatable > .p-datatable-wrapper {
+  overflow-y: visible;
+  overflow-x: auto;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive ::ng-deep .p-table {
+  min-width: 800px; /* Adjust as needed for your columns */
+
+  // padding-bottom: 50px;
+}
+
+// PrimeNG Paginator Style
+.p-paginator.p-component {
+  padding-bottom: 50px;
+}

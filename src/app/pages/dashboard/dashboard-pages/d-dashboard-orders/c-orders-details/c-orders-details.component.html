@@ -1,0 +1,553 @@
+@if (order) {
+<div class="card">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-semibold mb-4">
+      {{ order.order.user.name }}'s Order
+    </h2>
+    <div class="flex justify-end">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        (click)="backToOrders()"
+      ></button>
+    </div>
+  </div>
+  <!-- User Details -->
+  <p-card header="User Details" styleClass="shadow-lg border">
+    <p-table
+      [value]="userDetails"
+      [paginator]="false"
+      [rows]="5"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Phone</th>
+          <th class="text-center">Email</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td class="text-center">{{ user.id }}</td>
+          <td class="text-center">{{ user.name }}</td>
+          <td class="text-center">{{ userPhones }}</td>
+          <td class="text-center">
+            {{ user.email }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Order Details -->
+  <p-card header="Order Details" styleClass="shadow-lg border">
+    <p-table
+      [value]="userDetails"
+      [paginator]="false"
+      [rows]="5"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Date</th>
+          <th class="text-center">Time</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td class="text-center">{{ order.order.id }}</td>
+          <td class="text-center">{{ order.order.order_date }}</td>
+          <td class="text-center">{{ order.order.order_time }}</td>
+          <td [ngClass]="getStatusClass(order.order.status)">
+            <div class="mt-3">
+              <p-dropdown
+                [filter]="true"
+                [options]="getAvailableStatusOptions(order.order.status)"
+                [(ngModel)]="order.order.status"
+                (onChange)="updateOrderStatus(order.order, true)"
+                placeholder="Update Status"
+                optionLabel="label"
+                optionValue="value"
+              >
+                <!-- ✅ Selected item template (fixes missing icon when selecting) -->
+                <ng-template pTemplate="selectedItem" let-selected>
+                  <i [class]="selected.icon" class="mr-2"></i>
+                  {{ selected.label }}
+                </ng-template>
+
+                <!-- ✅ Dropdown item template (fixes missing icon inside dropdown list) -->
+                <ng-template pTemplate="item" let-option>
+                  <i [class]="option.icon" class="mr-2"></i>
+                  {{ option.label }}
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Address Details -->
+  <p-card header="Address Details" styleClass="shadow-lg border">
+    <p-table
+      [value]="userAddress"
+      [paginator]="false"
+      [rows]="5"
+      responsiveLayout="scroll"
+      styleClass="fixed-width-table"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">City</th>
+          <th class="text-center">Area</th>
+          <th class="text-center">Address Info</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td class="text-center">{{ findBranches(order.order.branch_id) }}</td>
+          <td
+            [title]="order.order.sub_location_title"
+            class="text-center text-wrap word-break"
+          >
+            {{ order.order.sub_location_title }}
+          </td>
+          <td
+            [title]="order.order.addressinfo!.address"
+            class="text-center text-wrap word-break"
+          >
+            {{ order.order.addressinfo!.address }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  <!-- Promo Details -->
+  @if (order.order.promo) {
+  <p-card header="Promo Code" styleClass="shadow-lg border">
+    <p-table
+      [value]="userPromoCode"
+      [paginator]="false"
+      [rows]="5"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Code</th>
+          <th class="text-center">Percentage</th>
+          <th class="text-center">Promo Code Value</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-code>
+        <tr>
+          <td class="text-center">{{ code.id }}</td>
+          <td class="text-center">{{ code.code }}</td>
+          <td class="text-center">{{ code.percentage / 100 | percent }}</td>
+          <td class="text-center">{{ order.order.promo_code_value }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  } @if (order.order.combo_id) {
+  <p-card header="Combo Details" styleClass="shadow-lg border">
+    <p-table [value]="[order.order]" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">Combo Name</th>
+          <th class="text-center">Combo Value</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-combo>
+        <tr>
+          <td class="text-center">{{ combo.combo_name }}</td>
+          <td class="text-center">
+            {{ combo.combo_value | currency : " EGP " }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  } @if(order.order.note_text){
+  <!-- <div class="flex flex-col p-4 shadow-lg border w-full min-h-[150px]">
+        <p class="font-bold bg-gray-100  text-2xl mb-4 text-black/80 ">ORDER NOTE</p>
+<p class="max-w-[600px] text-xl">{{ order.order.note_text }}</p>
+      </div> -->
+
+  <p-card header="Order Notes" styleClass="shadow-lg border">
+    <p-table [value]="[order.order]" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">Order Note</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td class="text-center text-wrap">{{ order.note_text }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  }
+
+  <p-card header="Cart Details" styleClass="shadow-lg border">
+    <p-table [value]="userOrders" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">#</th>
+          <th class="text-center">Cart Item</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Price</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <tr>
+          <td class="text-center">{{ i + 1 }}</td>
+          <td class="text-center">{{ getItemDescription(item) }}</td>
+          <td class="text-center">{{ item.quantity }}</td>
+          <td class="text-center">
+            {{ item.price * item.quantity | currency : " EGP " }}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <tr>
+          <td colspan="3" class="text-right font-bold">Subtotal:</td>
+          <td class="text-center font-bold">
+            {{ order.order.sub_total | currency : " EGP " }}
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="3" class="text-right font-bold">Service Charge:</td>
+          <td class="text-center font-bold">
+            <span class="flex items-center justify-center gap-2">
+              <p-badge
+                [value]="order.order.service_value / 100 | percent"
+                severity="info"
+                styleClass="mr-2"
+                pTooltip="Service charge percentage"
+                tooltipPosition="top"
+                aria-label="Service charge percentage"
+              ></p-badge>
+              @if (order.order.service_money) {
+              <p-badge
+                [value]="order.order.service_money | currency : ' EGP '"
+                severity="success"
+                pTooltip="Service charge amount"
+                tooltipPosition="top"
+                aria-label="Service charge amount"
+              ></p-badge>
+
+              }
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-right font-bold">VAT:</td>
+          <td class="text-center font-bold">
+            <span class="flex items-center justify-center gap-2">
+              <p-badge
+                [value]="order.order.taxes_value / 100 | percent"
+                severity="warning"
+                styleClass="mr-2"
+                pTooltip="VAT percentage"
+                tooltipPosition="top"
+                aria-label="VAT percentage"
+              ></p-badge>
+              @if (order.order.taxes_money) {
+              <p-badge
+                [value]="order.order.taxes_money | currency : ' EGP '"
+                severity="danger"
+                pTooltip="VAT amount"
+                tooltipPosition="top"
+                aria-label="VAT amount"
+              ></p-badge>
+              }
+            </span>
+          </td>
+        </tr>
+        @if(convertStringToNumber(order.order.zi_points_discount)){
+          <tr>
+            <td colspan="3" class="text-right font-bold">Zi Points:</td>
+            <td class="text-center font-bold">
+              <span class="flex items-center justify-center gap-2">
+                <p-badge
+                  [value]="order.order.zi_points_discount | currency : ' EGP '"
+                  severity="contrast"
+                  pTooltip="Zi Points"
+                  tooltipPosition="top"
+                  aria-label="Zi Points"
+                ></p-badge>
+              </span>
+            </td>
+          </tr>
+        }
+        @if(convertStringToNumber(order.order.happy_hours_discount)){
+          <tr>
+            <td colspan="3" class="text-right font-bold">happy hours:</td>
+            <td class="text-center font-bold">
+              <span class="flex items-center justify-center gap-2">
+                <p-badge
+                  [value]="convertStringToNumber(order.order.happy_hours_discount) | currency : ' EGP '"
+                  severity="contrast"
+                  pTooltip="happy hours"
+                  tooltipPosition="top"
+                  aria-label="happy hours"
+                ></p-badge>
+              </span>
+            </td>
+          </tr>
+        }
+        @if(convertStringToNumber(order.order.app_discount)){
+          <tr>
+            <td colspan="3" class="text-right font-bold">App Discount:</td>
+            <td class="text-center font-bold">
+              <span class="flex items-center justify-center gap-2">
+                <p-badge
+                  [value]="convertStringToNumber(order.order.app_discount) | currency : ' EGP '"
+                  severity="contrast"
+                  pTooltip="app discount"
+                  tooltipPosition="top"
+                  aria-label="app discount"
+                ></p-badge>
+              </span>
+            </td>
+          </tr>
+        }
+
+        @if (order.order.promo_code_value) {
+        <tr>
+          <td colspan="3" class="text-right font-bold text-lg">promo code</td>
+          <td class="text-center font-bold text-lg">
+            <span class="flex items-center justify-center gap-2">
+              <p-badge
+                [value]="
+                  '-' + order.order.promo_code_value | currency : ' EGP '
+                "
+                severity="warning"
+                pTooltip="promo code value"
+                tooltipPosition="top"
+                aria-label="promo code value"
+              ></p-badge>
+            </span>
+          </td>
+        </tr>
+        } @if (order.order.delivry_value) {
+        <tr>
+          <td colspan="3" class="text-right font-bold text-lg">Delivery:</td>
+          <td class="text-center font-bold text-lg">
+            <span class="flex items-center justify-center gap-2">
+              <p-badge
+                [value]="order.order.delivry_value | currency : ' EGP '"
+                severity="danger"
+                pTooltip="Delivery charge"
+                tooltipPosition="top"
+                aria-label="Delivery charge"
+              ></p-badge>
+            </span>
+          </td>
+        </tr>
+        }
+        <tr>
+          <td colspan="3" class="text-right font-bold text-lg">Total:</td>
+          <td class="text-center font-bold text-lg">
+            {{ order.order.total_price.toFixed(2) | currency : " EGP " }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>
+
+<!-- Print Button -->
+<button
+  pButton
+  label="Print Receipt"
+  icon="pi pi-print"
+  class="p-button-outlined"
+  (click)="printOrderReceipt()"
+></button>
+
+<!-- Order Receipt -->
+<p-card>
+  <div id="receipt-section">
+    <h2 class="text-center">Order Receipt</h2>
+    <p><strong>Order ID:</strong> {{ order.order.id }}</p>
+    <p><strong>Customer Name:</strong> {{ order.order.user.name }}</p>
+    <p><strong>Date:</strong> {{ order.order.order_date | date:'dd MMM yyyy'}}</p>
+    <p><strong>Full Address:</strong> {{ order.order.addressinfo.address }}</p>
+    <p><strong>sub Address:</strong> {{ order.order.sub_location_title }}</p>
+    <p>
+      <strong>Address Type:</strong> {{ order.order.addressinfo.address_type }}
+    </p>
+    @if(order.order.note_text) {
+      <p>
+        <strong>Order Note:</strong> {{ order.order.note_text }}
+      </p>
+    }
+    @if (order.order.addressinfo.phone) {
+    <p><strong>phone number:</strong> {{ order.order.addressinfo.phone }}</p>
+    }
+
+    <p><strong>Status:</strong> {{ order.order.status }}</p>
+
+    <table class="w-full border-collapse border">
+      <thead>
+        <tr>
+          <th class="border p-2">Item</th>
+          <th class="border p-2">Quantity</th>
+          <th class="border p-2">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of userOrders">
+          <td class="border p-2">{{ getItemDescription(item) }}</td>
+          <td class="border p-2">{{ item.quantity }}</td>
+          <td class="border p-2">{{ item.price | currency : " EGP " }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="not-show-print" class="mt-4">
+      <!-- Subtotal -->
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-shopping-cart text-primary"></i>
+            <span class="font-bold">Subtotal</span>
+          </div>
+          <span class="font-bold text-primary">{{
+            order.order.sub_total | currency : " EGP "
+          }}</span>
+        </div>
+      </p-card>
+
+      <!-- Service Charge -->
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-percentage text-blue-500"></i>
+            <span class="font-bold">Service Charge</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <p-badge
+              [value]="order.order.service_value / 100 | percent"
+              severity="info"
+            ></p-badge>
+            <span class="font-bold text-blue-500">{{
+              order.order.service_money | currency : " EGP "
+            }}</span>
+          </div>
+        </div>
+      </p-card>
+      <!-- App Discount  -->
+      @if (convertStringToNumber(order.order.app_discount)) {
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-mobile text-pr"></i>
+            <span class="font-bold">App Discount</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-blue-500">{{
+              convertStringToNumber(order.order.app_discount)
+                | currency : " EGP "
+            }}</span>
+          </div>
+        </div>
+      </p-card>
+      }
+      <!-- Zi Points discount  -->
+      @if (convertStringToNumber(order.order.zi_points_discount)) {
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-trophy text-pr text-pr"></i>
+            <span class="font-bold">Zi points Hours</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-blue-500">{{
+              convertStringToNumber(order.order.zi_points_discount)
+                | currency : " EGP "
+            }}</span>
+          </div>
+        </div>
+      </p-card>
+      }
+
+      <!-- VAT -->
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-chart-line text-orange-500"></i>
+            <span class="font-bold">VAT</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <p-badge
+              [value]="order.order.taxes_value / 100 | percent"
+              severity="warning"
+            ></p-badge>
+            <span class="font-bold text-blue-500">{{
+              order.order.taxes_money | currency : " EGP "
+            }}</span>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Delivery -->
+      @if (order.order.delivry_value) {
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-truck text-green-500"></i>
+            <span class="font-bold">Delivery</span>
+          </div>
+          <span class="font-bold text-blue-500">{{
+            order.order.delivry_value | currency : " EGP "
+          }}</span>
+        </div>
+      </p-card>
+      }
+
+      <!-- Promo Code -->
+      @if (order.order.promo_code_value) {
+      <p-card styleClass="mb-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-ticket text-purple-500"></i>
+            <span class="font-bold">Promo Code</span>
+          </div>
+          <span class="font-bold text-red-500">{{
+            "-" + order.order.promo_code_value | currency : " EGP "
+          }}</span>
+        </div>
+      </p-card>
+      }
+      <!-- Total -->
+      <p-card styleClass="bg-primary-50 border-primary">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-wallet text-primary"></i>
+            <span class="font-bold text-lg">Total</span>
+          </div>
+          <span class="font-bold text-lg text-primary">{{
+            order.order.total_price.toFixed(2) | currency : " EGP "
+          }}</span>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</p-card>
+
+} @else {
+<app-loading-data-banner></app-loading-data-banner>ng s }

@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+main {
+  min-height: 70vh;
+}
+
+:host ::ng-deep .pi-eye,
+:host ::ng-deep .pi-eye-slash {
+  transform: scale(1.6);
+  margin-right: 1rem;
+  color: var(--primary-color) !important;
+}
+
+// ::ng-deep .p-input-icon-right > .p-icon-wrapper,
+// .p-input-icon-right > i:last-of-type {
+//   right: auto;
+//   left: 0.75rem;
+// }
+
+.btn-main {
+  padding-block: 10px !important;
+}
+:host {
+  overflow-x: hidden;
+}

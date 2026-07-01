@@ -1,0 +1,80 @@
+@if (emails) {
+<p-card header="Recent Message" class="contact-card">
+  <!-- Search Input for Global Filter -->
+  <div class="p-input-icon-right ms-auto search-bar">
+    <i class="pi pi-search"></i>
+    <input
+      class="py-2"
+      pInputText
+      type="text"
+      (input)="onGlobalFilter(table, $event)"
+      placeholder="search by name or id..."
+    />
+  </div>
+
+  <p-table
+    #table
+    [paginator]="true"
+    [rows]="1000"
+    [value]="emails"
+    [styleClass]="'min-h-[50vh] flex justify-between flex-col'"
+    [responsive]="true"
+    [sortField]="'created_at'"
+    [sortOrder]="-1"
+    [globalFilterFields]="['id', 'name', 'message', 'created_at']"
+  >
+    <!-- Table Header -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="message">
+          Message <p-sortIcon field="message"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="created_at">
+          Date <p-sortIcon field="created_at"></p-sortIcon>
+        </th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+    <!-- Table Body -->
+    <ng-template pTemplate="body" let-email>
+      <tr>
+        <td class="text-center">{{ email.id }}</td>
+        <td class="text-center">{{ email.full_name }}</td>
+        <td class="text-center">
+          <span pTooltip="{{ email.message }}" [tooltipPosition]="'top'">
+            {{ email.message | slice : 0 : 20
+            }}{{ email.message.length > 20 ? "..." : "" }}
+          </span>
+        </td>
+        <td class="text-center">{{ email.created_at | date : "medium" }}</td>
+        <td class="text-center">
+          <button
+            [routerLink]="['/dashboard/contact-us/messages', email.id]"
+            pButton
+            label="View"
+            icon="pi pi-search"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <!-- Empty Message -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">
+          <div class="h-48 flex justify-center items-center flex-col">
+            <app-no-data-found-banner></app-no-data-found-banner>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}

@@ -1,0 +1,62 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Tutorial Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Names -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Title</label>
+        <p class="text-gray-900 font-semibold">{{ tutorialData.ToutrialContent.en_title }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Title</label>
+        <p class="text-gray-900 font-semibold">{{ tutorialData.ToutrialContent.ar_title }}</p>
+      </div>
+
+      <!-- English & Arabic Texts -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Content</label>
+        <p class="text-gray-900 font-semibold">{{ tutorialData.ToutrialContent.en_Text }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Content</label>
+        <p class="text-gray-900 font-semibold">{{ tutorialData.ToutrialContent.ar_text }}</p>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">
+          {{ tutorialData.ToutrialContent.created_at | date : "MMM d, y, h:mm a" }}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">
+          {{ tutorialData.ToutrialContent.updated_at | date : "MMM d, y, h:mm a" }}
+        </p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/pages/tutorial"></button>
+      <button
+        pButton
+        label="Edit Tutorial"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/pages/tutorial/tutorial-edit', tutorialData.ToutrialContent.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

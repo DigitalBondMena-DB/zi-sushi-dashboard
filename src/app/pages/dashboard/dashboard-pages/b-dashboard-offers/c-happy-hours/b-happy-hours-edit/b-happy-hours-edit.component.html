@@ -1,0 +1,69 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">
+      {{ isEditing ? "Edit Happy Hour" : "Add Happy Hour" }}
+    </h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-4">
+
+      <!-- Start Time -->
+      <div class="flex flex-col">
+        <label class="font-medium">Start Time</label>
+        <input type="time" formControlName="start_time" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('start_time')?.invalid && submitForm.get('start_time')?.touched) {
+        <small class="p-error">Start time is required.</small>
+        }
+      </div>
+
+      <!-- End Time -->
+      <div class="flex flex-col">
+        <label class="font-medium">End Time</label>
+        <input type="time" formControlName="end_time" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('end_time')?.invalid && submitForm.get('end_time')?.touched) {
+        <small class="p-error">End time is required.</small>
+        }
+      </div>
+
+      <!-- Discount -->
+         <div class="flex flex-col">
+           <label class="font-medium">Discount (%)</label>
+           <input type="number" pInputText formControlName="discount_percentage" class="p-inputtext-sm w-full" />
+           <div class="min-h-7">
+             @if (submitForm.get('discount_percentage')?.errors?.['required'] && submitForm.get('discount_percentage')?.touched) {
+             <small class="p-error relative top-0">Discount is required.</small>
+             }
+             @if (submitForm.get('discount_percentage')?.errors?.['min']) {
+             <small class="p-error relative top-0">Minimum discount is 1%.</small>
+             }
+             @if (submitForm.get('discount_percentage')?.errors?.['max']) {
+             <small class="p-error relative top-0">Maximum discount is 100%.</small>
+             }
+             @if (submitForm.get('discount_percentage')?.errors?.['pattern']) {
+             <small class="p-error relative top-0">Enter numbers only</small>
+             }
+           </div>
+
+           <span class="text-gray-500 mt-1 italic">
+         This discount does not include Menu 100 and Hot Boxes.
+       </span>
+         </div>
+
+      <!-- Time Comparison Error -->
+      @if (submitForm.hasError('timeOrderInvalid')) {
+      <div class="col-span-2">
+        <small class="p-error">End Time must be greater than Start Time.</small>
+      </div>
+      }
+
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button pButton label="Cancel" class="p-button-text" routerLink="/dashboard/offers/happy-hours-index"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,101 @@
+@if (happyHoursData.length >0) {
+<div class="card">
+  <div class="mb-3">
+    <h2 class="text-2xl font-semibold">Happy Hours Control</h2>
+  </div>
+
+  <p-table
+    #dt
+    [showCurrentPageReport]="true"
+    [globalFilterFields]="['id', 'en_name', 'ar_name', 'state']"
+    [sortMode]="'single'"
+    (onSort)="onSort($event)"
+    [value]="filteredHappyHours"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th class="text-center" >
+          Day 
+        </th>
+        <th class="text-center" pSortableColumn="start_time">
+          Start Time <p-sortIcon field="start_time"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="end_time">
+          End Time <p-sortIcon field="end_time"></p-sortIcon>
+        </th>
+        <th class="text-center" pSortableColumn="discount_percentage">
+          Discount Percentage <p-sortIcon field="discount_percentage"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <!-- Normal Dropdown without filter icon or overlay -->
+          <p-dropdown
+            #Dd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [ngModel]="selectedStatus"
+            [options]="selectOptions"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"
+          ></p-dropdown>
+        </th>
+        <th class="text-center">Edit</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-happyHours>
+      <tr>
+        <td class="text-center">{{ happyHours.id }}</td>
+        <td class="text-center">{{ happyHours.day }}</td>
+        <td class="text-center">{{ happyHours.start_time }}</td>
+        <td class="text-center">{{ happyHours.end_time }}</td>
+        <td class="text-center">{{ happyHours.discount_percentage  }}%</td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="happyHours.is_active"
+            (onChange)="toggleCategoryStatus(happyHours)"
+          ></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a
+            [routerLink]="[
+              '/dashboard/offers/happy-hours/happy-hours-edit',
+              happyHours.id
+            ]"
+            target="_blank"
+            pButton
+            rel="noopener noreferrer"
+            class="p-button p-component text-black p-button-text"
+          >
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

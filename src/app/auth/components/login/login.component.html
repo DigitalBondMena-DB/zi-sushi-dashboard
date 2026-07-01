@@ -1,0 +1,104 @@
+<div class="min-h-dvh flex justify-center items-center">
+  <main class="dashboard">
+    <!-- login -->
+    <div class="flex align-items-start py-6 justify-content-center min-w-screen overflow-hidden">
+      <div class="flex flex-column align-items-center justify-content-center py-5">
+        <div
+          style="
+            border-radius: 56px;
+            padding: 0.3rem;
+            background: linear-gradient(180deg, #e34b23 10%, rgba(33, 150, 243, 0) 30%);
+          ">
+          <div class="shadow-inner surface-card py-8 px-5 sm:px-8 box-shadow" style="border-radius: 53px">
+            <div class="text-center mb-2">
+              <img class="mx-auto mb-9  !w-[150px] rounded-md" src="./assets/images/Login_Logo.png" alt="Image" />
+            </div>
+
+            <form [formGroup]="userData" (ngSubmit)="onSignInFormSubmitClick()">
+              <!-- Email Field -->
+              <div>
+                <div class="mb-4">
+                  <div class="flex justify-between items-center">
+                    <label for="email1" class="block text-900 text-xl font-medium">Username</label>
+                    @if (userData.controls['email'].invalid && userData.controls['email'].touched) {
+                    <div class="text-red-500">
+                      @if (userData.controls['email'].hasError('required')) {
+                      <small class="font-italic">Required*</small>
+                      }
+                    </div>
+                    }
+                  </div>
+                  <input
+                    id="email1"
+                    type="text"
+                    placeholder="User Name"
+                    pInputText
+                    autocomplete="name"
+                    class="w-full md:w-30rem mb-1"
+                    style="padding: 1rem"
+                    formControlName="email" />
+                </div>
+                <!-- Email Error Message -->
+
+                <!-- Password Field -->
+                <div class="mb-2">
+                  <div class="flex justify-between items-center">
+                    <label for="password1" class="block text-900 font-medium text-xl">Password</label>
+                    @if (userData.controls['password'].invalid && userData.controls['password'].touched) {
+                    <div class="text-red-500">
+                      @if (userData.controls['password'].hasError('required')) {
+                      <small class="font-italic">Required*</small>
+                      }
+                    </div>
+                    }
+                  </div>
+                  <p-password
+                    id="password1"
+                    [toggleMask]="true"
+                    placeholder="Password"
+                    styleClass="mb-1"
+                    inputStyleClass="w-full p-3 md:w-30rem"
+                    formControlName="password"
+                    [feedback]="false"></p-password>
+                </div>
+                <!-- Password Error Message -->
+
+                <!-- Remember Me Checkbox -->
+                <div class="flex items-center justify-between mb-5 mt-2 gap-5">
+                  <div class="flex items-center">
+                    <p-checkbox
+                      id="rememberme1"
+                      [binary]="true"
+                      [label]="'Remember me'"
+                      labelStyleClass="cursor-pointer"
+                      styleClass="mx-2 border rounded"
+                      formControlName="rememberMe"></p-checkbox>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="relative">
+                  <button
+                    pButton
+                    pRipple
+                    [icon]="isLoading ? 'pi pi-spin pi-spinner' : ''"
+                    [iconPos]="'right'"
+                    label="Login"
+                    class="w-full !mx-auto block p-3 py-3 text-xl text-white rounded-md disabled:bg-main-300 !bg-main-500"
+                    [disabled]="userData.invalid || isLoading"></button>
+                  @if (isErrorMessage) {
+                  <div class="text-red-500 my-2 text-center absolute top-full left-0 right-0">
+                    <p>wrong username or password !</p>
+                  </div>
+                  }
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-dashboard-footer />

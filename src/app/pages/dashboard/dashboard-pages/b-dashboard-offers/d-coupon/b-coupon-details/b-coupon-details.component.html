@@ -1,0 +1,55 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Coupons Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Names -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Code</label>
+        <p class="text-gray-900 font-semibold">{{ couponsData.code }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Percentage</label>
+        <p class="text-gray-900 font-semibold">{{ couponsData.percentage / 100 | percent }}</p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag [severity]="couponsData.status ? 'success' : 'danger'" class="w-fit">
+          {{ couponsData.status ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">{{ couponsData.created_at | date : "MMM d, y, h:mm a" }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">{{ couponsData.updated_at | date : "MMM d, y, h:mm a" }}</p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/offers/coupons"></button>
+      <button
+        pButton
+        label="Edit Coupon"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/offers/coupons/coupons-edit', couponsData.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

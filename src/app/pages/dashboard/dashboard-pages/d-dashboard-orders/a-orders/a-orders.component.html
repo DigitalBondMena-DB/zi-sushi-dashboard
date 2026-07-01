@@ -1,0 +1,192 @@
+@if (allOrders) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Tracking Orders</h2>
+  </div>
+
+  <div
+    class="flex space-x-3 space-y-3 flex-wrap justify-content-between items-center my-4"
+  >
+    <!-- Search Input -->
+    <div class="flex justify-content-end">
+      <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input
+          #search
+          class="mb-0"
+          type="text"
+          pInputText
+          placeholder="Search orders boxes..."
+          (input)="onSearchInput($event)"
+        />
+      </span>
+    </div>
+
+    <!-- Date Filter -->
+    <div class="flex items-center">
+      <div class="relative inline-block">
+        <!-- Filter Button -->
+        <button
+          (click)="toggleDropdown()"
+          class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 transition"
+        >
+          <i class="pi pi-calendar"></i>
+          Filter
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div
+          *ngIf="isDropdownOpen"
+          class="absolute left-auto right-0 mt-2 w-96 p-4 flex flex-nowrap z-50"
+        >
+          <!-- Right: Date Picker -->
+          <div class="flex flex-col flex-1 pl-4 date-picker">
+            <ngx-daterangepicker-material
+              [autoApply]="true"
+              [linkedCalendars]="true"
+              [alwaysShowCalendars]="true"
+              [ranges]="datePresets"
+              (choosedDate)="onDateSelected($event)"
+            >
+            </ngx-daterangepicker-material>
+
+            <button
+              (click)="applyFilter()"
+              class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+      <p-button
+        [outlined]="true"
+        icon="pi pi-filter-slash"
+        label="Clear"
+        (onClick)="clear(dt)"
+      />
+    </div>
+  </div>
+  <div class="table-responsive">
+    <p-table
+      #dt
+      [paginator]="true"
+      [lazy]="true"
+      [rows]="50"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="getPagination()"
+      (onLazyLoad)="loadOrdersLazy($event)"
+      [showCurrentPageReport]="true"
+      [globalFilterFields]="[
+        'id',
+        'user.name',
+        'order_date',
+        'total_price',
+        'sub_location_title'
+      ]"
+      [value]="orders"
+      responsiveLayout="scroll"
+      sortField="order_date"
+      paginatorDropdownAppendTo="'body'"
+      [sortOrder]="-1"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">ID <p-sortIcon field="id" /></th>
+          <th pSortableColumn="user.name">
+            User 
+          </th>
+          <th pSortableColumn="order_date">
+            Date <p-sortIcon field="order_date" />
+          </th>
+          <th pSortableColumn="order_time">
+            Time <p-sortIcon field="order_time" />
+          </th>
+          <th>Branch</th>
+          <th pSortableColumn="sub_location_title">
+            Area 
+          </th>
+          <th pSortableColumn="total_price">
+            Price <p-sortIcon field="total_price" />
+          </th>
+          <th class="text-center">View</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-order>
+        @if (order.status !== "cancelled" && order.status !== 'delivered') {
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order?.user?.name || "" }}</td>
+          <td>{{ order.order_date }}</td>
+          <td>{{ order.order_time }}</td>
+          <td>
+            {{ order.branch.en_branch_location }}
+          </td>
+          <td [title]="order.sub_location_title" class="max-w-fit">
+            {{ order.sub_location_title | slice : 0 : 50 }}
+          </td>
+          <td>{{ order.total_price.toFixed(2) }}</td>
+          <td class="text-center">
+            <a
+              class="view"
+              [routerLink]="['/dashboard/orders/order-details', order.id]"
+              pButton
+              label="View"
+              icon="pi pi-search"
+            ></a>
+          </td>
+          <td [ngClass]="getStatusClass(order.status)">
+            <div class="mt-3">
+              <p-dropdown
+                [filter]="true"
+                [options]="getAvailableStatusOptions(order.status)"
+                [(ngModel)]="order.status"
+                (onChange)="updateOrderStatus(order, true)"
+                placeholder="Update Status"
+                optionLabel="label"
+                [autoZIndex]="true"
+                [appendTo]="'body'"
+                optionValue="value"
+              >
+                <ng-template pTemplate="selectedItem" let-selected>
+                  <i [class]="selected.icon" class="mr-2"></i>
+                  {{ selected.label }}
+                </ng-template>
+                <ng-template pTemplate="item" let-option>
+                  <i [class]="option.icon" class="mr-2"></i>
+                  {{ option.label }}
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-times"
+              (onClick)="updateOrderStatus(order, false)"
+              class="p-button-text"
+            ></p-button>
+          </td>
+        </tr>
+        }
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10">
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast [key]="'orderStatusMessage'"></p-toast>

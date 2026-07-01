@@ -1,0 +1,30 @@
+<p-card header="User Message Details" class="message-card">
+  <div class="message-content">
+    <div class="message-header">
+      <span class="user-avatar">
+        <i class="pi pi-user"></i>
+      </span>
+      <h2>{{ message.row.full_name }}</h2>
+    </div>
+
+    <p-listbox [options]="messageDetails" class="message-list">
+      <ng-template let-item pTemplate="item">
+        <div class="message-item">
+          <i [class]="item.icon"></i>
+          <span>{{ item.label }}</span>
+        </div>
+      </ng-template>
+    </p-listbox>
+
+    <div class="message-body">
+      <h3>Message</h3>
+      <p>{{ message.row.message }}</p>
+    </div>
+
+    <div class="message-footer">
+      <span class="created-at">
+        <i class="pi pi-clock"></i> Received on: {{ message.row.created_at | date : "medium" }}</span
+      >
+    </div>
+  </div>
+</p-card>

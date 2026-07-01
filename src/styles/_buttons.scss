@@ -1,0 +1,38 @@
+@import "variables";
+
+.btn-main {
+  background-color: $main-color !important;
+  color: $text-light !important;
+  border-radius: $border-radius !important;
+  text-decoration: none !important;
+  padding-block: 6px !important;
+}
+
+.btn-secondary {
+  background-color: $text-light !important;
+  color: $text-semi-light !important;
+  border-radius: $border-radius !important;
+  text-decoration: none !important;
+  padding-block: 6px !important;
+}
+
+.btn-show-all {
+  text-decoration: underline;
+  color: #777474;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+button.btn-main:hover,
+a.btn-main:hover {
+  background-color: #e3492356 !important;
+  color: $text-light !important;
+  border: none !important;
+}
+
+button,
+button:focus,
+a,
+a:focus {
+  border: none !important;
+}

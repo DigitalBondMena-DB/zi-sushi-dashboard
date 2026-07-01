@@ -1,0 +1,62 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">
+      {{ isEditing ? "Edit Limit" : "Add Limit" }}
+    </h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form
+      [formGroup]="submitForm"
+      class="grid md:grid-cols-2 gap-2 items-center justify-center"
+    >
+      @if (isEditing) {
+        <p><span class="font-semibold">Piece Name:</span> {{ pieceName }}</p>
+        <p-inputNumber
+          formControlName="limit_count"
+          [showButtons]="true"
+          [min]="0"
+          placeholder="Enter limit count"
+          styleClass="w-full "
+        />
+      } @else {
+        <p-dropdown
+          [placeholder]="'Choose Product'"
+          styleClass="flex-grow-1 w-full border border-black/25 rounded-[10px] px-3"
+          class="flex-grow-1"
+          [filter]="true"
+          [options]="products"
+          formControlName="product_id"
+          optionLabel="en_food_name"
+          optionValue="id"
+        />
+        <p-inputNumber
+          formControlName="limit_count"
+          [showButtons]="true"
+          [min]="0"
+          placeholder="Enter limit count"
+          styleClass="w-full"
+        />
+      }
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        [routerLink]="['/dashboard/offers/combo/limits-details/', productId]"
+      ></button>
+      <button
+        pButton
+        label="Save"
+        (click)="saveForm()"
+        [disabled]="submitForm.invalid"
+        class="p-button-success btn-main px-3"
+      ></button>
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,87 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Area" : "Add Area" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="subLocationForm" class="grid md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="font-medium mb-3">English Area</label>
+        <input required type="text" pInputText formControlName="en_sub_location" class="p-inputtext-sm w-full" />
+        @if (subLocationForm.get('en_sub_location')?.invalid && subLocationForm.get('en_sub_location')?.touched) {
+        <div class="p-error">
+          <small>English Area is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-3">Arabic Area</label>
+        <input required type="text" pInputText formControlName="ar_sub_location" class="p-inputtext-sm w-full" />
+        @if (subLocationForm.get('ar_sub_location')?.invalid && subLocationForm.get('ar_sub_location')?.touched) {
+        <div class="p-error">
+          <small>Arabic Area is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-3">Price</label>
+        <input required appOnlyNumber pInputText formControlName="price" class="p-inputtext-sm w-full" />
+        @if (subLocationForm.get('price')?.invalid && subLocationForm.get('price')?.touched) {
+        <div class="p-error">
+          <small>Price is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-3">City</label>
+        <p-dropdown
+          required
+          [filter]="true"
+          optionLabel="en_location"
+          [options]="locations"
+          styleClass="w-full border border-black/25 rounded-[10px] px-3"
+          formControlName="location_id"
+          optionValue="id"
+          placeholder="Select a City" />
+
+        @if (subLocationForm.get('location_id')?.invalid && subLocationForm.get('location_id')?.touched) {
+        <div class="p-error">
+          <small>City is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-3">Branch</label>
+        <p-dropdown
+          required
+          styleClass="w-full border border-black/25 rounded-[10px] px-3"
+          optionLabel="en_branch_location"
+          optionValue="id"
+          [options]="Branches"
+          formControlName="branch_id"
+          placeholder="Select a Area" />
+        @if (subLocationForm.get('branch_id')?.invalid && subLocationForm.get('branch_id')?.touched) {
+        <div class="p-error">
+          <small>Branch is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2 mt-4">
+      <button pButton label="Cancel" class="p-button-text" routerLink="/dashboard/sub-locations/"></button>
+      <button pButton label="Save" (click)="saveSubLocation()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,76 @@
+@if (product) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">{{ product.product.en_food_name }} Choices Control</h2>
+    <div class="flex gap-5 items-center">
+      @if (choices.length > 0) {
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text text-gray-600"
+        [routerLink]="['/dashboard/menu/products/']"></button>
+      }
+      <p-button
+        [routerLink]="['/dashboard/menu/products/products-choice-add', product.product.id]"
+        label="Add Choice"
+        icon="pi pi-plus"
+        class="btn-main text-white"></p-button>
+    </div>
+  </div>
+
+  <p-table [value]="choices" [loading]="loading" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">Name ( EN )</th>
+        <th class="text-center">Name ( AR )</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-choice>
+      <tr>
+        <td class="text-center">{{ choice.id }}</td>
+        <td class="text-center">{{ choice.en_name }}</td>
+        <td class="text-center">{{ choice.ar_name }}</td>
+        <td class="text-center">
+          <p-inputSwitch
+            [trueValue]="1"
+            [falseValue]="0"
+            [ngModel]="choice.status"
+            (onChange)="toggleProductStatus(choice)"></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <p-button (onClick)="editPicePrice(choice)" icon="pi pi-pencil" class="p-button-text"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+            <div class="flex justify-center">
+              <button
+                icon="pi pi-angle-double-left"
+                pButton
+                label="Back"
+                class="p-button-text"
+                [routerLink]="['/dashboard/menu/products/products-details', product.product.id]"></button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

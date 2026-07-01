@@ -1,0 +1,67 @@
+button {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #f3f3f3;
+}
+
+.absolute {
+  width: auto !important;
+  max-width: 95vw;
+}
+
+@media screen and (min-width: 992px) {
+  .absolute {
+    width: 670px !important;
+  }
+}
+
+::ng-deep {
+  .full-width-picker {
+    width: 100% !important;
+    display: block;
+
+    .md-drppicker {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column;
+      position: relative !important;
+      top: 0 !important;
+      left: 0 !important;
+      float: none !important;
+      box-shadow: none !important;
+      border: none !important;
+      padding: 0 !important;
+      margin-top: 0 !important;
+
+      .calendar {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        
+        .calendar-table {
+          width: 100% !important;
+        }
+      }
+      
+      .ranges {
+        width: 100% !important;
+        margin: 0 0 10px 0 !important;
+        ul {
+          width: 100% !important;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          li {
+            flex: 1 1 auto;
+            text-align: center;
+            margin: 0 !important;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+}

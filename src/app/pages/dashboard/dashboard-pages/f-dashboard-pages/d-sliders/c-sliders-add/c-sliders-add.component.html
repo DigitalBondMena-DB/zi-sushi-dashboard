@@ -1,0 +1,111 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Slider" : "Add Slider" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-1 gap-6">
+      <!-- Image Upload Section -->
+      <div>
+        <div class="p-field">
+          <label class="font-medium mb-1 block">
+            Slider Image
+            @if(isBaseImage.length > 0) {
+              <img src="{{imgUrl}}products/{{ isBaseImage }}" class="w-20 h-20 mt-1 rounded" />
+            }
+          </label>
+          <p-fileUpload
+            #fileUpload
+            name="image"
+            accept="image/*"
+            [auto]="true"
+            [chooseLabel]="'Choose Image'"
+            [uploadLabel]="'Upload'"
+            [styleClass]="'w-full'"
+            [cancelLabel]="'Cancel'"
+            (onRemove)="clearImage()"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [customUpload]="true"
+            (onSelect)="onFileSelect($event)"
+            [draggable]="true">
+            <ng-template pTemplate="content">
+              <div
+                class="upload-area flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-main-500 transition">
+                <i class="pi pi-cloud-upload text-4xl text-gray-400"></i>
+                <p class="text-gray-500 mt-2">
+                  Drag & drop an image or
+                  <span class="text-blue-500 cursor-pointer" (click)="fileUpload.choose()">click to select</span>
+                </p>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+          @if (submitForm.get('image')?.invalid && submitForm.get('image')?.touched) {
+          <div class="p-error">
+            <small>Slider Image is required.</small>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">English Title</label>
+        <input required type="text" pInputText formControlName="en_title" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_title')?.invalid && submitForm.get('en_title')?.touched) {
+        <div class="p-error">
+          <small>English Title is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Arabic Title</label>
+        <input required type="text" pInputText formControlName="ar_title" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_title')?.invalid && submitForm.get('ar_title')?.touched) {
+        <div class="p-error">
+          <small>Arabic Title is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">English Text</label>
+        <input required type="text" pInputText formControlName="en_text" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_text')?.invalid && submitForm.get('en_text')?.touched) {
+        <div class="p-error">
+          <small>English Text is required.</small>
+        </div>
+        }
+      </div>
+
+      <div>
+        <label class="font-medium mb-1 block">Arabic Text</label>
+        <input required type="text" pInputText formControlName="ar_text" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_text')?.invalid && submitForm.get('ar_text')?.touched) {
+        <div class="p-error">
+          <small>Arabic Text is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="is_active"></p-inputSwitch>
+        <label class="font-medium mb-1 block">Status</label>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/pages/sliders"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>
+
+<p-toast></p-toast>

@@ -1,0 +1,32 @@
+@if (isBrowser) {
+<div class="text-main">
+  <router-outlet></router-outlet>
+</div>
+}
+
+<!-- <ngx-spinner
+  [disableAnimation]="true"
+  bdColor="rgba(0, 0, 0)"
+  size="medium"
+  name="mainLoader"
+  color="#fff"
+  [zIndex]="9999"
+  type="ball-beat">
+  <div>
+    <div class="welcome-container">
+      <img class="w-25 mx-auto block" src="/assets/favicon_io/web-app-manifest-512x512.png" alt="Zi Sushi" />
+      <h1 class="text-white">Welcome to Your Dashboard</h1>
+      <p class="text-white">Manage your control your website with ease.</p>
+    </div>
+  </div>
+</ngx-spinner> -->
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>

@@ -1,0 +1,106 @@
+@if (isLoading) {
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Voucher Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- code -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Title En</label>
+        <p class="text-gray-900 font-semibold">
+          {{ voucherData.voucher.title_en }}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Title Ar</label>
+        <p class="text-gray-900 font-semibold">
+          {{ voucherData.voucher.title_ar }}
+        </p>
+      </div>
+
+      <!-- apply -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Apply:</label>
+        <div class="flex gap-4 items-center flex-wrap">
+          @if(voucherData.voucher.apply !== 'all') { @for(user of
+          voucherData.voucher.users; track user.id) {
+          <p class="text-gray-900 font-semibold mb-0">{{ user.name }}</p>
+          } }@else {
+          <p class="text-gray-900 font-semibold mb-0">
+            @if(voucherData.voucher.apply === 'all'){ All Users }
+          </p>
+          }
+        </div>
+      </div>
+
+      <!-- min amount -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">min amount</label>
+        <p class="text-gray-900 font-semibold">
+          {{ voucherData.voucher.min_amount }}
+        </p>
+      </div>
+
+      <!-- type -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">type</label>
+        <p class="text-gray-900 font-semibold">
+          {{ voucherData.voucher.type }}
+        </p>
+      </div>
+
+      <!-- use -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">use</label>
+        <p class="text-gray-900 font-semibold">
+          @if ( voucherData.voucher.use == 'once') { One use } @else if (
+          voucherData.voucher.use == 'all') { Multi use }
+        </p>
+      </div>
+
+      <!-- value -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">value</label>
+        <p class="text-gray-900 font-semibold">
+          @if (voucherData.voucher.type === 'percent') {
+
+          {{ voucherData.voucher.value / 100 | percent }}
+          } @else {
+          {{ voucherData.voucher.value | currency : " EGP" }}
+
+          }
+        </p>
+      </div>
+
+      <!-- value -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Expiration date </label>
+        <p class="text-gray-900 font-semibold">
+          {{ voucherData.voucher.expiration_date | date }}
+        </p>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="../../"
+      ></button>
+      <button
+        pButton
+        label="Edit Coupon"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['../../', 'vouchers-edit', voucherData.voucher.id]"
+      ></button>
+    </div>
+  </ng-template>
+</p-card>
+}

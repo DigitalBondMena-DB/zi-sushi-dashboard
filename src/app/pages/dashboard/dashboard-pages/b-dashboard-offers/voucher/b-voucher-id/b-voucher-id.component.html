@@ -1,0 +1,215 @@
+<p-card class="p-4">
+  <h2 class="text-xl font-semibold mb-4">
+    {{ isEditing ? "Edit Voucher" : "Add New Voucher" }}
+  </h2>
+
+  <form
+    [formGroup]="submitForm"
+    (ngSubmit)="saveForm()"
+    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+  >
+    <!-- Voucher Title En  -->
+    <div class="col-span-1">
+      <label for="code" class="font-medium block mb-1">Title En</label>
+      <input
+        id="title-en"
+        type="text"
+        pInputText
+        placeholder="Enter voucher En title"
+        formControlName="title_en"
+        class="w-full"
+      />
+      <small
+        class="text-red-500"
+        *ngIf="
+          submitForm.get('title_en')?.touched &&
+          submitForm.get('title_en')?.invalid
+        "
+      >
+        title is required (min 3 characters)
+      </small>
+    </div>
+
+    <!-- Voucher Title ar -->
+    <div class="col-span-1">
+      <label for="code" class="font-medium block mb-1">Title Ar</label>
+      <input
+        id="title-ar"
+        type="text"
+        pInputText
+        placeholder="Enter voucher ar Title "
+        formControlName="title_ar"
+        class="w-full"
+      />
+      <small
+        class="text-red-500"
+        *ngIf="
+          submitForm.get('title_ar')?.touched &&
+          submitForm.get('title_ar')?.invalid
+        "
+      >
+        Code is required (min 3 characters)
+      </small>
+    </div>
+
+    <!-- Use Option -->
+    <div class="col-span-1">
+      <label for="use" class="font-medium block mb-1">Usage</label>
+      <p-dropdown
+        id="use"
+        [options]="useOptions"
+        formControlName="use"
+        placeholder="Select usage"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+      ></p-dropdown>
+    </div>
+
+    <!-- Discount Type -->
+    <div class="col-span-1">
+      <label for="type" class="font-medium block mb-1">Type</label>
+      <p-dropdown
+        id="type"
+        [options]="typeOptions"
+        formControlName="type"
+        placeholder="Select type"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+      ></p-dropdown>
+    </div>
+
+    <!-- Value -->
+    <div class="col-span-1">
+      <label for="value" class="font-medium block mb-1">Value</label>
+      <input
+        id="value"
+        type="number"
+        pInputText
+        placeholder="Enter discount value"
+        formControlName="value"
+        class="w-full"
+        appOnlyNumber
+      />
+      <small
+        class="text-red-500"
+        *ngIf="
+          submitForm.get('value')?.touched && submitForm.get('value')?.invalid
+        "
+      >
+        Value must be a positive number
+      </small>
+    </div>
+
+    <!-- Minimum Amount -->
+    <div class="col-span-1">
+      <label for="min_amount" class="font-medium block mb-1"
+        >Min Order Price</label
+      >
+      <input
+        id="min_amount"
+        type="number"
+        pInputText
+        placeholder="Enter minimum order amount"
+        formControlName="min_amount"
+        class="w-full"
+        appOnlyNumber
+      />
+    </div>
+
+    <!-- Apply To -->
+    <div class="col-span-1">
+      <label for="apply" class="font-medium block mb-1">Apply To</label>
+      <p-dropdown
+        id="apply"
+        [options]="applyOptions"
+        formControlName="apply"
+        placeholder="Select apply type"
+        optionLabel="label"
+        optionValue="value"
+        class="w-full"
+      ></p-dropdown>
+    </div>
+
+    <!-- Limit (only if "limited" use selected) -->
+    <div class="col-span-1" *ngIf="submitForm.get('use')?.value === 'limited'">
+      <label for="limit" class="font-medium block mb-1">Limit</label>
+      <input
+        id="limit"
+        type="number"
+        pInputText
+        placeholder="Enter usage limit"
+        formControlName="limit"
+        class="w-full"
+        appOnlyNumber
+      />
+    </div>
+
+    <!-- Users (only if "apply" = "limited") -->
+    <div
+      class="col-span-1"
+      *ngIf="submitForm.get('apply')?.value === 'limited'"
+    >
+      <label for="users" class="font-medium block mb-1">Users</label>
+      <p-multiSelect
+        id="users"
+        [options]="allUsers()"
+        (input)="onSearchChange($event)"
+        formControlName="users"
+        optionLabel="name"
+        optionValue="id"
+        defaultLabel="Select users"
+        [loading]="isLoadingUsers()"
+        class="w-full"
+      ></p-multiSelect>
+    </div>
+
+    <!-- Expiration Date -->
+    <div class="col-span-1">
+      <label for="expiration_date" class="font-medium block mb-1"
+        >Expiration Date</label
+      >
+      <p-calendar
+        id="expiration_date"
+        formControlName="expiration_date"
+        dateFormat="yy-mm-dd"
+        showIcon="true"
+        class="w-full"
+      ></p-calendar>
+      <div class="validation">
+        <small
+          class="text-red-500"
+          *ngIf="
+            submitForm.get('expiration_date')?.touched &&
+            submitForm.get('expiration_date')?.invalid
+          "
+        >
+          Expiration date is required
+        </small>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <!-- <div class="col-span-1 flex items-center mt-6">
+      <label class="mr-3 font-medium">Active</label>
+      <p-inputSwitch formControlName="status"></p-inputSwitch>
+    </div> -->
+
+    <!-- Error Message -->
+    <div class="col-span-2" *ngIf="errorMessage()">
+      <p class="text-red-600 font-medium">{{ errorMessage() }}</p>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-span-2 flex justify-end mt-4">
+      <p-button
+        label="{{ isEditing ? 'Update Voucher' : 'Create Voucher' }}"
+        icon="pi pi-save"
+        type="submit"
+        class="btn-main"
+        styleClass="p-button-primary"
+      ></p-button>
+    </div>
+  </form>
+</p-card>

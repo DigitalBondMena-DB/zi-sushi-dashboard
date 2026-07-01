@@ -1,0 +1,83 @@
+@if (!loading) {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Sliders Control</h2>
+
+    <p-button routerLink="/dashboard/pages/sliders/sliders-add" label="Add Slider" icon="pi pi-plus"
+      class="btn-main text-white"></p-button>
+  </div>
+
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input #search class="mb-0" type="text" pInputText placeholder="Search" (input)="onGlobalFilter(dt, $event)" />
+    </span>
+  </div>
+
+  <p-table #dt [paginator]="totalRecords > 0" [rows]="rowsPerPage" [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()" [showCurrentPageReport]="true" [lazy]="true" (onPage)="onPageChange($event)"
+    [globalFilterFields]="['id', 'en_title', 'en_text']" [sortMode]="'single'" (onSort)="onSort($event)"
+    [value]="filteredSliders" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th class="text-center">Image</th>
+        <th class="text-center" pSortableColumn="en_title">Title (EN) <p-sortIcon field="en_title"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="en_text">Text (EN) <p-sortIcon field="en_text"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="created_at">Created At <p-sortIcon field="created_at"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <p-dropdown #Dd [ngModel]="selectedStatus" [options]="selectOptions" optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true" placeholder="Status" [showClear]="false"
+            [autoZIndex]="true" appendTo="body"></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-slider>
+      <tr>
+        <td class="text-center">{{ slider.id }}</td>
+        <td class="text-center">
+          @if (slider.image) {
+          <img width="50" height="50" style="width: 50px; height: 50px;" class="mx-auto rounded-full object-cover"
+            [ngSrc]="imgUrl + 'products/' + slider.image" role="presentation" />
+          } @else {
+          <span class="text-gray-400">No Image</span>
+          }
+        </td>
+        <td class="text-center">{{ slider.en_title || 'N/A' }}</td>
+        <td class="text-center">{{ slider.en_text || 'N/A' }}</td>
+        <td class="text-center">{{ slider.created_at | date: 'd MMM yyyy' }}</td>
+        <td class="text-center">
+          <p-inputSwitch [trueValue]="1" [falseValue]="0" [ngModel]="slider.is_active"
+            (onChange)="toggleSliderStatus(slider)"></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <a [routerLink]="['/dashboard/pages/sliders/sliders-edit', slider.id]" target="_blank" pButton
+            rel="noopener noreferrer" class="p-button p-component text-black p-button-text">
+            <span class="p-button-icon pi pi-pencil"></span>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">
+          <div>
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>

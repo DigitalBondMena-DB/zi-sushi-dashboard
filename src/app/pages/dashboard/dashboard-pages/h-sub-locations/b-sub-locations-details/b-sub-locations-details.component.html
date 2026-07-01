@@ -1,0 +1,76 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Branch Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Location -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Location</label>
+        <p class="text-gray-900 font-semibold">{{ subLocationData.sublocation.en_sub_location }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Location</label>
+        <p class="text-gray-900 font-semibold">{{ subLocationData.sublocation.ar_sub_location }}</p>
+      </div>
+
+      <!-- English & Arabic City -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Price</label>
+        <p class="text-gray-900 font-semibold">{{ subLocationData.sublocation.price | currency : " EGP " }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">City</label>
+        <p class="text-gray-900 font-semibold">{{ findLocations(subLocationData.sublocation.location_id) }}</p>
+      </div>
+
+      <!-- English & Arabic Address -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Branch</label>
+        <p class="text-gray-900 font-semibold">{{ findCity(subLocationData.sublocation.branch_id) }}</p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag [severity]="subLocationData.sublocation.status ? 'success' : 'danger'" class="w-fit">
+          {{ subLocationData.sublocation.status ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">
+          {{ subLocationData.sublocation.created_at | date : "MMM d, y, h:mm a" }}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">
+          {{ subLocationData.sublocation.updated_at | date : "MMM d, y, h:mm a" }}
+        </p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/sub-locations"></button>
+      <button
+        pButton
+        label="Edit Sub Location"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/sub-locations/sub-locations-edit', subLocationData.sublocation.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

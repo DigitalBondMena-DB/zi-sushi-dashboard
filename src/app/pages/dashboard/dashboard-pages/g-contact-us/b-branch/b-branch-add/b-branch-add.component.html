@@ -1,0 +1,146 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Branch" : "Add Branch" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="branchForm" class="grid md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="font-medium">English Location</label>
+        <input type="text" pInputText required formControlName="en_branch_location" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('en_branch_location')?.invalid && branchForm.get('en_branch_location')?.touched) {
+        <div class="p-error">
+          <small>English Location is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Location</label>
+        <input type="text" pInputText required formControlName="ar_branch_location" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('ar_branch_location')?.invalid && branchForm.get('ar_branch_location')?.touched) {
+        <div class="p-error">
+          <small>Arabic Location is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">English City</label>
+        <input type="text" pInputText required formControlName="en_branch_city" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('en_branch_city')?.invalid && branchForm.get('en_branch_city')?.touched) {
+        <div class="p-error">
+          <small>English City is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic City</label>
+        <input type="text" pInputText required formControlName="ar_branch_city" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('ar_branch_city')?.invalid && branchForm.get('ar_branch_city')?.touched) {
+        <div class="p-error">
+          <small>Arabic City is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">English Address</label>
+        <input type="text" pInputText required formControlName="en_branch_address" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('en_branch_address')?.invalid && branchForm.get('en_branch_address')?.touched) {
+        <div class="p-error">
+          <small>English Address is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Address</label>
+        <input type="text" pInputText required formControlName="ar_branch_address" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('ar_branch_address')?.invalid && branchForm.get('ar_branch_address')?.touched) {
+        <div class="p-error">
+          <small>Arabic Address is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Location URL</label>
+        <input type="text" pInputText required formControlName="location_url" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('location_url')?.invalid && branchForm.get('location_url')?.touched) {
+        <div class="p-error">
+          <small>Location URL is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Phone 1</label>
+        <input appOnlyNumber type="text" pInputText formControlName="branch_phone_1" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('branch_phone_1')?.invalid && branchForm.get('branch_phone_1')?.touched) {
+        <div class="p-error">
+          <small>Phone 1 must be a valid Egyptian phone number.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Phone 2</label>
+        <input appOnlyNumber type="text" pInputText formControlName="branch_phone_2" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('branch_phone_2')?.invalid && branchForm.get('branch_phone_2')?.touched) {
+        <div class="p-error">
+          <small>Phone 2 must be a valid Egyptian phone number.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Phone 3</label>
+        <input appOnlyNumber type="text" pInputText formControlName="branch_phone_3" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('branch_phone_3')?.invalid && branchForm.get('branch_phone_3')?.touched) {
+        <div class="p-error">
+          <small>Phone 3 must be a valid Egyptian phone number.</small>
+        </div>
+        }
+      </div>
+      <div class="flex flex-col">
+        <label class="font-medium">English Disable Message</label>
+        <input type="text" pInputText required formControlName="en_close_message" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('en_close_message')?.invalid && branchForm.get('en_close_message')?.touched) {
+        <div class="p-error">
+          <small>English Disable Message is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Disable Message</label>
+        <input type="text" pInputText required formControlName="ar_close_message" class="p-inputtext-sm w-full" />
+        @if (branchForm.get('ar_close_message')?.invalid && branchForm.get('ar_close_message')?.touched) {
+        <div class="p-error">
+          <small>Arabic Disable Message is required.</small>
+        </div>
+        }
+      </div>
+      <!-- <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
+      </div> -->
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/contact-us/branches"></button>
+      <button pButton label="Save" (click)="saveBranch()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>
+
+<p-toast />

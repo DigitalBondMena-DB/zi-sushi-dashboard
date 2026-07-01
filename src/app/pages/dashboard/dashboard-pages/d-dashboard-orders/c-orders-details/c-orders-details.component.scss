@@ -1,0 +1,44 @@
+::ng-deep .p-datatable-wrapper,
+::ng-deep .ng-star-inserted td,
+.ng-star-inserted td {
+  overflow: visible !important;
+}
+::ng-deep .p-dropdown-items-wrapper {
+  max-height: 230px !important;
+}
+th,
+td {
+  text-align: center;
+    // width: 25% !important;
+
+}
+
+::ng-deep .p-inputwrapper {
+  width: 100% !important;
+}
+
+.fixed-width-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.fixed-width-table th, 
+.fixed-width-table td {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  width: 25% !important;
+}
+
+.word-break {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.text-wrap {
+  white-space: normal !important;
+}
+

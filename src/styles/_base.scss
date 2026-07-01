@@ -1,0 +1,64 @@
+@import "variables";
+
+.btn-large a {
+  padding-inline: 50px !important;
+}
+
+img {
+  object-position: top;
+}
+
+.pi {
+  margin-inline: 0.5rem !important;
+}
+
+.p-toast-message-content {
+  align-items: start;
+  .p-element.p-icon-wrapper {
+    align-items: start;
+    margin-left: 0.5rem;
+  }
+}
+
+.hyper_link {
+  text-decoration: none !important;
+}
+
+.toast-top-left {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999; /* Ensure it appears above other content */
+}
+
+th .p-sortable-column-icon {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+*:not(input) {
+  text-transform: capitalize !important;
+}
+
+input {
+  color: black !important;
+}
+
+.p-element {
+  margin-inline: 2.5px;
+  padding-inline: 5px;
+}
+
+input[type="text"] {
+  margin-bottom: 0px;
+}
+
+.view {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  color: #4b5563 !important;
+}

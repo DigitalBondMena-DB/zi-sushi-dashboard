@@ -1,0 +1,108 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Hot Box Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- Hot Box Image -->
+      <div class="flex flex-col md:col-span-2">
+        <label class="font-medium text-gray-600">Hot Box Image</label>
+        <img
+          width="50"
+          height="50"
+          style="width: 50px; height: 50px"
+          class="rounded-full"
+          [ngSrc]="
+            imgUrl+'products/' +
+            boxData.product.image
+          "
+          role="presentation"
+        />
+      </div>
+
+      <!-- English & Arabic Names -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Name</label>
+        <p class="text-gray-900 font-semibold">
+          {{ boxData.product.en_food_name }}
+        </p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Name</label>
+        <p class="text-gray-900 font-semibold">
+          {{ boxData.product.ar_food_name }}
+        </p>
+      </div>
+
+      <!-- English & Arabic ingredients text -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Description</label>
+        <p
+          class="text-gray-900 font-semibold"
+          [innerHTML]="boxData.product.en_ingredients"
+        ></p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Description</label>
+        <p
+          class="text-gray-900 font-semibold"
+          [innerHTML]="boxData.product.ar_ingredients"
+        ></p>
+      </div>
+
+      <!-- Price -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Price</label>
+        <p class="text-gray-900 font-semibold">
+          {{ boxData.product.price | currency : " EGP " }}
+        </p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag
+          [severity]="boxData.product.status ? 'success' : 'danger'"
+          class="w-fit"
+        >
+          {{ boxData.product.status ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">{{ boxData.product.created_at | date : "MMM d, y, h:mm a" }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">{{ boxData.product.updated_at | date : "MMM d, y, h:mm a" }}</p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/offers/boxes"
+      ></button>
+      <button
+        pButton
+        label="Edit Hot Box"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="[
+          '/dashboard/offers/boxes/boxes-edit',
+          boxData.product.id
+        ]"
+      ></button>
+    </div>
+  </ng-template>
+</p-card>

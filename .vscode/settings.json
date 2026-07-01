@@ -1,0 +1,17 @@
+{
+  "cSpell.words": [
+    "اصداء",
+    "الخليج"
+  ],
+  "spellright.language": [
+    "ar"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ],
+  "i18n-ally.localesPaths": [
+    "src/assets/i18n"
+  ]
+}

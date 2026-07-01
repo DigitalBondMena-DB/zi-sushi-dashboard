@@ -1,0 +1,44 @@
+@if (userAddresses.length > 0) {
+<div class="card">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-semibold mb-4">{{ userData.row.name }} Addresses</h2>
+    <div class="flex justify-end">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/users"></button>
+    </div>
+  </div>
+
+  <p-table [value]="userAddresses" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center">Address ID</th>
+        <th class="text-center">City</th>
+        <th class="text-center">Address</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-address>
+      <tr>
+        <td class="text-center">{{ address.id }}</td>
+        <td class="text-center">{{ findLocations(address.location_id) }}</td>
+        <td class="text-center">{{ address.address }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+} @else {
+<app-no-data-found-banner></app-no-data-found-banner>
+<div class="flex justify-center">
+  <button
+    icon="pi pi-angle-double-left"
+    pButton
+    label="Back"
+    class="p-button-text"
+    routerLink="/dashboard/users"></button>
+</div>
+}

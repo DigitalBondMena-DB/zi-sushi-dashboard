@@ -1,0 +1,24 @@
+@if (socialMediaLinks.length > 0) {
+<div class="social-media-control">
+  <h2>Social Media Links</h2>
+
+  @for (link of socialMediaLinks; track $index) {
+  <div class="social-media-item">
+    <i [class]="'pi ' + link.icon" class="social-icon"></i>
+    <label>{{ link.label }}</label>
+    <input type="text" [(ngModel)]="link.url" [placeholder]="'Enter ' + link.label" />
+  </div>
+  }
+
+  <p-toast />
+  <button
+    pButton
+    class="btn-main px-3"
+    [disabled]="isLoading"
+    (click)="saveChanges()"
+    [icon]="isLoading ? 'pi pi-spin pi-spinner mx-2' : ''"
+    label="Save Changes"></button>
+</div>
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}

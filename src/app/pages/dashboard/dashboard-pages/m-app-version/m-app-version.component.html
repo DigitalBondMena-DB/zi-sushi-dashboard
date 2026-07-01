@@ -1,0 +1,71 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">App Version Settings</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="versionForm" class="grid md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="font-medium mb-2">iOS Version</label>
+        <input
+          required
+          type="text"
+          pInputText
+          formControlName="apple_version"
+          placeholder="e.g. 3.2.12"
+          class="p-inputtext-sm w-full"
+        />
+        @if (versionForm.get('apple_version')?.touched) {
+          @if (versionForm.get('apple_version')?.errors?.['required']) {
+            <div class="p-error mt-1">
+              <small>iOS Version is required.</small>
+            </div>
+          }
+          @if (versionForm.get('apple_version')?.errors?.['pattern']) {
+            <div class="p-error mt-1">
+              <small>Invalid version format. Must be X.Y.Z format (e.g. 3.2.12).</small>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium mb-2">Android Version</label>
+        <input
+          required
+          type="text"
+          pInputText
+          formControlName="android_version"
+          placeholder="e.g. 3.2.12"
+          class="p-inputtext-sm w-full"
+        />
+        @if (versionForm.get('android_version')?.touched) {
+          @if (versionForm.get('android_version')?.errors?.['required']) {
+            <div class="p-error mt-1">
+              <small>Android Version is required.</small>
+            </div>
+          }
+          @if (versionForm.get('android_version')?.errors?.['pattern']) {
+            <div class="p-error mt-1">
+              <small>Invalid version format. Must be X.Y.Z format (e.g. 3.2.12).</small>
+            </div>
+          }
+        }
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        pButton
+        label="Save Changes"
+        [disabled]="versionForm.invalid"
+        (click)="saveAppVersion()"
+        class="p-button-success btn-main px-3"
+      ></button>
+    </div>
+  </ng-template>
+</p-card>
+
+<p-toast />

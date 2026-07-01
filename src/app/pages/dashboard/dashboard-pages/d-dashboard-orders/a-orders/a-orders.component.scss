@@ -1,0 +1,32 @@
+::ng-deep .p-datatable-wrapper,
+::ng-deep .ng-star-inserted td,
+.ng-star-inserted td {
+  overflow: visible !important;
+}
+::ng-deep th .p-dropdown-items-wrapper {
+  max-height: 230px !important;
+}
+th,
+td {
+  text-align: center;
+}
+
+::ng-deep td .p-inputwrapper {
+  width: 100% !important;
+}
+
+// Date Filter
+.absolute {
+  width: auto !important;
+  // min-width: 350px;
+}
+@media screen and (min-width: 992px) {
+  .absolute {
+    width: 670px !important;
+    // min-width: 350px;
+  }
+}
+
+::ng-deep .md-drppicker {
+  display: inline-block !important;
+}

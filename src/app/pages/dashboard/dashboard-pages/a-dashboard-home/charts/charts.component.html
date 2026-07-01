@@ -1,0 +1,59 @@
+@if (Statics()) {
+<!-- First Row: Cards for Total Delivered vs Cancelled Orders and Revenue -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <!-- Delivered vs Cancelled Orders (Pie Chart) -->
+  <div class="col-span-1">
+    <p-card header="Total Orders Comparison" class="h-full">
+      <p-chart type="pie" [data]="totalDeliveredData" [options]="chartOptions"></p-chart>
+    </p-card>
+  </div>
+
+  <!-- Delivered vs Cancelled Revenue (Pie Chart) -->
+  <div class="col-span-1">
+    <p-card header="Total Revenue Comparison" class="h-full">
+      <p-chart type="pie" [data]="totalRevenueData" [options]="chartOptions"></p-chart>
+    </p-card>
+  </div>
+</div>
+
+@if (Statics()?.branches) {
+<!-- Second Row: Branch-specific Data Comparison -->
+<div *ngIf="Statics()?.branches" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
+  <!-- Branch-specific Orders Data -->
+  <div *ngFor="let chartData of branchOrderData" class="col-span-1 h-full">
+    <p-card [header]="'Branch: ' + chartData.name" class="h-full">
+      <ngx-charts-bar-vertical
+        [results]="chartData.series"
+        [scheme]="colorScheme"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [style]="{ height: '500px' }"
+        [xAxisLabel]="'Order Status'"
+        [yAxisLabel]="'Orders Count'">
+      </ngx-charts-bar-vertical>
+    </p-card>
+  </div>
+
+  <!-- Branch-specific Revenue Data -->
+  <div *ngFor="let chartData of branchRevenueData" class="col-span-1 h-full">
+    <p-card [header]="'Branch: ' + chartData.name" class="h-full">
+      <ngx-charts-bar-vertical
+        [results]="chartData.series"
+        [xAxis]="true"
+        [yAxis]="true"
+        [scheme]="colorScheme"
+        [style]="{ height: '500px' }"
+        [legend]="true"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxisLabel]="'Revenue Status'"
+        [yAxisLabel]="'Revenue (EGP)'">
+      </ngx-charts-bar-vertical>
+    </p-card>
+  </div>
+</div>
+
+} } @else {<app-loading-data-banner></app-loading-data-banner>}

@@ -1,0 +1,23 @@
+$main-font: "Cairo", serif;
+
+:root,
+html,
+body {
+  // font-family: "Cairo", serif !important;
+  font-family: "Noto Kufi Arabic", serif !important;
+}
+:root,
+::ng-deep html,
+::ng-deep body {
+  // font-family: "Cairo", serif !important;
+  font-family: "Noto Kufi Arabic", serif !important;
+}
+.fs-cairo {
+  font-family: "Cairo", serif !important;
+}
+.Inter-font {
+  font-family: "Inter", serif;
+}
+.pi {
+  font-family: "primeicons" !important;
+}

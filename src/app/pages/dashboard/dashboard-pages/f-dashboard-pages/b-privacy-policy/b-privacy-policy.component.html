@@ -1,0 +1,94 @@
+@if (privacyPolicy) {
+<p-card class="p-4">
+  <div class="container mx-auto">
+    <div class="flex justify-between items-center mb-20">
+      <h2 class="text-2xl font-semibold mb-0">Privacy Policy Control</h2>
+
+      @if (isEditing) {
+      <p-button (click)="saveChanges()" label="Save Changes" icon="pi pi-plus" class="btn-main"></p-button>
+      } @else {
+      <p-button (click)="toggleEditing()" label="Edit Privacy Policy" icon="pi pi-plus" class="btn-main"></p-button>
+      }
+    </div>
+
+    <!-- English Content -->
+    <h2 class="text-2xl font-semibold">English Content</h2>
+    <div class="rounded">
+      <p-card>
+        <div class="grid gap-6">
+          <!-- English Title -->
+          <div>
+            <label class="font-bold mb-4 block">Title:</label>
+            @if (isEditing) {
+            <input class="w-full p-2 text-black" [(ngModel)]="privacyPolicy.PrivacyPolicy.en_title" />
+            } @else {
+            <h2>{{ privacyPolicy.PrivacyPolicy.en_title }}</h2>
+
+            }
+          </div>
+
+          <!-- English Text -->
+          <div>
+            <label class="font-bold mb-4 block">Description:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <ngx-jodit [options]="{ language: 'en' }" [(ngModel)]="privacyPolicy.PrivacyPolicy.en_text"></ngx-jodit>
+            </div>
+            } @else {
+
+            <div>
+              <p
+                class="!text-sm text-gray-500 text-wrap"
+                [innerHTML]="privacyPolicy.PrivacyPolicy.en_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Arabic Content -->
+    <h2 class="text-2xl font-semibold">Arabic Content</h2>
+    <div class="rounded">
+      <p-card>
+        <div class="grid gap-6 !text-end">
+          <!-- Arabic Title -->
+          <div>
+            <label class="font-bold mb-4 block">العنوان:</label>
+            @if (isEditing) {
+            <input dir="rtl" class="w-full p-2 text-black" [(ngModel)]="privacyPolicy.PrivacyPolicy.ar_title" />
+            } @else {
+            <h2>{{ privacyPolicy.PrivacyPolicy.ar_title }}</h2>
+
+            }
+          </div>
+
+          <!-- Arabic Text -->
+          <div>
+            <label class="font-bold mb-4 block">الوصف:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <ngx-jodit
+                dir="rtl"
+                class="text-start"
+                [options]="{ language: 'ar' }"
+                [(ngModel)]="privacyPolicy.PrivacyPolicy.ar_text"></ngx-jodit>
+            </div>
+            } @else {
+
+            <div>
+              <p class="!text-sm text-gray-500" [innerHTML]="privacyPolicy.PrivacyPolicy.ar_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</p-card>
+} @else {
+
+<app-loading-data-banner />
+}
+
+<p-toast />

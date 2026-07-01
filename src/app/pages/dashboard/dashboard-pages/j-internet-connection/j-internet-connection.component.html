@@ -1,0 +1,26 @@
+<div class="min-h-screen flex flex-col justify-between text-center my-10 py-10">
+  <app-dashboard-top-bar></app-dashboard-top-bar>
+
+  <section id="no-internet" class="flex flex-col items-center justify-center py-10 min-h-[80vh]">
+    <div class="container text-center">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEBElEQVR4nO2YW4hVVRjHfzNjmkpCpU6aptnN8MVXxdDICxkipIIIFpEwUpOFKYr3B/VF1IemnrK0i/WQlS+WiiBKD9JlEBHFy4OCmhqmhpfxtuMb/hs+tnvtOfvMmTnnwPnDhnP2Wt9t7e+6oIYaaigXfgOixHOQKkQUeKoOUULxmiHlwCM5vojfW3Y8A7wDbANagbYchrSJZqt4DKWbMQJYDhxJCeT7GYon/99PoT8CLAOe7Srl64DJwC/AAyf4GvAz8AEwBuibw5C+olkA7BSvSI/J2AVMkuySYArwlxNyA/gKmNqBn+fNWsbrDeBr4Kbb/6cOsWi8BOxzDM8BS4AnuiH9PilZ5xzdXuDFPAb0kJ/eEoPLwEKgdxnqSG9gEfCPaE2npdIxE4OBA85PP9fpZMFOaZ5c4mwOQ86Kxmhf6EBGf+ALF5/7pWsqXgEuOjd6LYPxY8B8pc9QC1Lo//ixOGwS7xAmAue1/29gXHLDDOdKv+oE0jAI+Az4zynwL/AT0Ay8nMOQkcD7wI/AFbd+HfgUeCqgwwBgt3O1N+OFJpfTWwL+96h887oTaC44K8Nf88RID/E6kDDIAr5XYH+L9t2TDe2BHb+YnkL0KnDaCfgOGB1QqFhDPEYD37v9p4AJKfumS+dINrRjrV60KZejQvQhcEdrJ1RTuitrjQeOukNe44rjJBcKG5OEm1zBmwbscExWAj0zhD4vo/fkMGSPaJ7L4NsTWOVO/gfpFhfMzWlEdQrkKOGnRpiGeq3tLUHW+gN4KyPezBOuJmi2ZLUv9epkI8XFqMC+aXK1mOkVtS0zcxgyU3XEZ6yTGQc3SvESSUfTNRMNwHpgYMra087l7DmujJFW9ZN1IhQjfVSTjFe8Z0eg4FnqXScdi4YVn0vuCzR3wPBgihGWXkMwXs2qS5FkPVTwOou3gduueWuk69Do4u62ZJcEc9yJtmR8heHAihx8be+wwFqDqnss13ToNPoBh8TwWErsWMP3rUuRhSJO7d8ofXs0upg5JB1Kgsddg3hYM0mDTvWWK6bbc/DcLpq4Z7LqXK9u+7Det0p2STHAVdrfVdDidv9LYEgRN41DdfkQt+e7xTuSLJPZJRisXB8rdkHtAp1Iv2iUNV6+ngTnjVLBAvSMTiwUrMX0WsbrqHhn8S35lVDazJL3FiWJ/uJdVkwNjLoh17K9r1Nh+NgNZ4VW9kg0RlsRGOIu11oLvFCrc+n8WkrGKxvGujn+kwL2b3Czjw1QFYWJrjjakBbCeldAKy5G/AAUN5c22SWxWmt3MuaOioFdz9yVwnYLEuMj11/NpkowVxnJWo/3gHf1+4F+VxWanPLx037/VI1Y4GrIYqocy/wFWg011FADncH/yrG+xxMtDukAAAAASUVORK5CYII="
+        alt="No Internet"
+        class="mx-auto mb-6 max-w-[250px]" />
+
+      <h2 class="text-red-600 font-bold text-2xl">No Internet Connection</h2>
+      <p class="text-gray-500">Please check your network settings and try again.</p>
+
+      <!-- <button
+        class="text-white rounded-lg py-3 px-5 bg-main-400 hover:bg-main-700 font-medium"
+        onclick="location.reload()">
+        <i class="fa-solid fa-rotate-right mr-2"></i> Retry
+      </button> -->
+      <div class="my-3 flex justify-center">
+        <button routerLink="/" class="bg-main-400 text-white rounded-lg py-3 px-5">back to home</button>
+      </div>
+    </div>
+  </section>
+
+  <app-dashboard-footer></app-dashboard-footer>
+</div>

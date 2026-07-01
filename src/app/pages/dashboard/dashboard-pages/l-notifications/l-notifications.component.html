@@ -1,0 +1,37 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Send Notification</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="notificationForm" class="grid md:grid-cols-1 gap-6">
+      <div class="flex flex-col">
+        <label class="font-medium">Notification Title</label>
+        <input required type="text" pInputText formControlName="textmessage" class="p-inputtext-sm w-full" />
+        @if (notificationForm.get('textmessage')?.invalid && notificationForm.get('textmessage')?.touched) {
+        <div class="p-error">
+          <small>Notification Title is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Notification Text</label>
+        <input required type="text" pInputText formControlName="titlemessage" class="p-inputtext-sm w-full" />
+        @if (notificationForm.get('titlemessage')?.invalid && notificationForm.get('titlemessage')?.touched) {
+        <div class="p-error">
+          <small>Notification Text is required.</small>
+        </div>
+        }
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button pButton label="Send" (click)="sendNotification()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>
+
+<p-toast />

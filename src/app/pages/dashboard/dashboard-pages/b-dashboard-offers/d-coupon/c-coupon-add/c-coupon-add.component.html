@@ -1,0 +1,68 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Coupons" : "Add Coupons" }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-6">
+      <div class="flex flex-col">
+        <label class="font-medium">Code</label>
+        <input type="text" pInputText formControlName="code" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('code')?.invalid && submitForm.get('code')?.touched) {
+        <div class="p-error">
+          <small>Code is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Percentage</label>
+        <input appOnlyNumber type="number" pInputText formControlName="percentage" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('percentage')?.invalid && submitForm.get('percentage')?.touched) {
+        <div class="p-error">
+          <small>Percentage is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Counter</label>
+        <p-dropdown
+          [filter]="true"
+          styleClass="w-full border border-black/25 rounded-[10px] px-3"
+          [options]="counter"
+          formControlName="counter_use"
+          optionLabel="name"
+          optionValue="code" />
+        @if (submitForm.get('counter_use')?.invalid && submitForm.get('counter_use')?.touched) {
+        <div class="p-error">
+          <small>Counter is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/offers/coupons"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>
+@if (errorMessage.length>0) {
+<div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+  <p class="font-bold"></p>
+  <p>{{ errorMessage }}</p>
+</div>
+}

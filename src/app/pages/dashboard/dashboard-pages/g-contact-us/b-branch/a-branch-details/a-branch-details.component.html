@@ -1,0 +1,116 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">Branch Details</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- English & Arabic Location -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Location</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.en_branch_location }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Location</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.ar_branch_location }}</p>
+      </div>
+
+      <!-- English & Arabic City -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English City</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.en_branch_city }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic City</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.ar_branch_city }}</p>
+      </div>
+
+      <!-- English & Arabic Address -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Address</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.en_branch_address }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Address</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.ar_branch_address }}</p>
+      </div>
+
+      <!-- English & Arabic closed branch -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">English Disable Message</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.en_close_message }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Arabic Disable Message</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.ar_close_message }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Location URL</label>
+        @if (branchData.branches.location_url) {
+        <p class="text-gray-900 font-semibold">
+          <a [href]="branchData.branches.location_url" target="_blank">Branch Location</a>
+        </p>
+        } @else {
+        <p class="text-gray-900 font-semibold">No URL Provided Yet</p>
+
+        }
+      </div>
+
+      <!-- Phones -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Phone 1</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.branch_phone_1 }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Phone 2</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.branch_phone_2 }}</p>
+      </div>
+
+      <div class="flex flex-col" *ngIf="branchData.branches.branch_phone_3">
+        <label class="font-medium text-gray-600">Phone 3</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.branch_phone_3 }}</p>
+      </div>
+
+      <!-- Status -->
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Status</label>
+        <p-tag [severity]="branchData.branches.status ? 'success' : 'danger'" class="w-fit">
+          {{ branchData.branches.status ? "Active" : "Inactive" }}
+        </p-tag>
+      </div>
+
+      <!-- Created & Updated Date -->
+      <!-- <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Created At</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.created_at | date : "MMM d, y, h:mm a" }}</p>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium text-gray-600">Updated At</label>
+        <p class="text-gray-900 font-semibold">{{ branchData.branches.updated_at | date : "MMM d, y, h:mm a" }}</p>
+      </div> -->
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text"
+        routerLink="/dashboard/contact-us/branches"></button>
+      <button
+        pButton
+        label="Edit Branch"
+        class="p-button-primary btn-main px-3"
+        [routerLink]="['/dashboard/contact-us/branches/branches-edit', branchData.branches.id]"></button>
+    </div>
+  </ng-template>
+</p-card>

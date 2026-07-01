@@ -1,0 +1,18 @@
+<div class="layout-wrapper" [class]="containerClass">
+  <!-- Top Bar -->
+  <app-dashboard-top-bar />
+  <div class="layout-sidebar">
+    <!-- Side Bar -->
+    <app-dashboard-side-bar />
+  </div>
+  <div class="layout-main-container">
+    <!-- Main Pages -->
+    <div class="layout-main">
+      <router-outlet />
+    </div>
+  </div>
+
+  <!-- Configuration Bar -->
+  <app-dashboard-config-bar />
+  <div class="layout-mask"></div>
+</div>
