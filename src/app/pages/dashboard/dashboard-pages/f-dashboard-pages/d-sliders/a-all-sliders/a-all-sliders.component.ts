@@ -107,10 +107,30 @@ export class AAllSlidersComponent {
   }
 
   toggleSliderStatus(slider: ISliderData) {
-    this.ngxSpinnerService.show("actionsLoader");
     this.messageService.clear();
 
     const updatedStatus = slider.is_active ? 0 : 1;
+
+    // Prevent disabling the last active slider
+    if (!updatedStatus) {
+      const activeCount = this.sliders.filter((s) => s.is_active).length;
+      if (activeCount <= 1) {
+        // Force UI to revert back to ON state
+        slider.is_active = updatedStatus as any;
+        setTimeout(() => (slider.is_active = 1), 0);
+
+        this.messageService.add({
+          severity: "warn",
+          summary: "Not Allowed",
+          detail: "At least one slider must remain active.",
+          life: 4000,
+        });
+        return;
+      }
+    }
+
+    this.ngxSpinnerService.show("actionsLoader");
+
     if (updatedStatus) {
       this.slidersService.enableSlider(slider.id.toString()).subscribe({
         next: () => {

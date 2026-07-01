@@ -165,6 +165,9 @@ export class CProductsAddComponent {
       }
     });
 
+    // Backend requires both 'status' and 'state' with the same value
+    fd.append("state", this.submitForm.value["status"]);
+
     if (typeof this.submitForm.get("image")?.value == "object") {
       fd.append("image", this.submitForm.get("image")?.value);
     } else {

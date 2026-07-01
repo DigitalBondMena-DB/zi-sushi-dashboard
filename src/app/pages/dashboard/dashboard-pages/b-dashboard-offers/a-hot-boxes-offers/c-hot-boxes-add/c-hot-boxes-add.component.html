@@ -9,21 +9,10 @@
       <div>
         <div class="p-field">
           <label class="font-medium mb-1 block">Box Image</label>
-          <p-fileUpload
-            #fileUpload
-            name="image"
-            accept="image/*"
-            [auto]="true"
-            [chooseLabel]="'Choose Image'"
-            [uploadLabel]="'Upload'"
-            [styleClass]="'w-full'"
-            [cancelLabel]="'Cancel'"
-            (onRemove)="clearImage()"
-            [showUploadButton]="false"
-            [showCancelButton]="false"
-            [customUpload]="true"
-            (onSelect)="onFileSelect($event)"
-            [draggable]="true">
+          <p-fileUpload #fileUpload name="image" accept="image/*" [auto]="true" [chooseLabel]="'Choose Image'"
+            [uploadLabel]="'Upload'" [styleClass]="'w-full'" [cancelLabel]="'Cancel'" (onRemove)="clearImage()"
+            [showUploadButton]="false" [showCancelButton]="false" [customUpload]="true"
+            (onSelect)="onFileSelect($event)" [draggable]="true">
             <ng-template pTemplate="content">
               <div
                 class="upload-area flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-main-500 transition">
@@ -85,11 +74,7 @@
 
       <div>
         <label class="font-medium mb-1 block">Box Arabic Description</label>
-        <ngx-jodit
-          required
-          dir="rtl"
-          [options]="{ language: 'ar', direction: 'rtl' }"
-          required
+        <ngx-jodit required dir="rtl" [options]="{ language: 'ar', direction: 'rtl' }" required
           formControlName="ar_ingredients"></ngx-jodit>
         @if (submitForm.get('ar_ingredients')?.invalid && submitForm.get('ar_ingredients')?.touched) {
         <div class="p-error">
@@ -99,19 +84,15 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="status"></p-inputSwitch>
-        <label class="font-medium mb-1 block">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="state"></p-inputSwitch>
+        <label class="font-medium mb-1 block">state</label>
       </div>
     </form>
   </ng-template>
 
   <ng-template pTemplate="footer">
     <div class="flex justify-end gap-3 mt-4">
-      <button
-        icon="pi pi-times"
-        pButton
-        label="Cancel"
-        class="p-button-text"
+      <button icon="pi pi-times" pButton label="Cancel" class="p-button-text"
         routerLink="/dashboard/offers/boxes"></button>
       <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
     </div>

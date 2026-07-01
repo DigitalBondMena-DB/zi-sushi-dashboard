@@ -69,7 +69,7 @@ export class CHotBoxesAddComponent {
       ar_ingredients: ["", Validators.required],
       piece_price_state: [0, Validators.required],
       product_choice_state: [0, Validators.required],
-      status: [1, Validators.required],
+      state: [1, Validators.required],
     });
   }
 
